@@ -30,7 +30,7 @@ async function patch() {
 
   // Define our new renderIntegrationTab function
   const newRenderIntegrationTab = `function renderIntegrationTab(key) {
-  const sk = key.siteKey;
+  const sk = (key && key.siteKey) ? key.siteKey : (location.pathname.split("/")[1] || "");
   const origin = location.origin;
   const endpoint = \`\${origin}/\${sk}/\`;
   const widget = \`<script src="\${origin}/assets/widget.js"></script>\\n<cap-widget data-cap-api-endpoint="\${endpoint}"></cap-widget>\`;
