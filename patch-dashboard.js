@@ -157,11 +157,15 @@ If anything fails and you are sure it's Cap's issue:
             </div>
 
             <!-- Tab Navigation for Controls -->
-            <div class="theme-tab-bar" style="display: flex; gap: 4px; border-bottom: 1px solid var(--border-color, #e2e8f0); margin-top: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px;">
-              <button type="button" class="theme-tab-btn active" data-target="themeTabColors" style="padding: 6px 10px; font-size: 11px; font-weight: 600; border: none; background: none; color: #3b82f6; border-bottom: 2px solid #3b82f6; cursor: pointer; white-space: nowrap;">🎨 Colors & Layout</button>
-              <button type="button" class="theme-tab-btn" data-target="themeTabCheckbox" style="padding: 6px 10px; font-size: 11px; font-weight: 600; border: none; background: none; color: #94a3b8; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap;">☑️ Checkbox & Spinner</button>
-              <button type="button" class="theme-tab-btn" data-target="themeTabLabels" style="padding: 6px 10px; font-size: 11px; font-weight: 600; border: none; background: none; color: #94a3b8; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap;">📝 i18n Labels</button>
-              <button type="button" class="theme-tab-btn" data-target="themeTabAria" style="padding: 6px 10px; font-size: 11px; font-weight: 600; border: none; background: none; color: #94a3b8; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap;">♿ ARIA / A11y</button>
+            <div class="theme-tab-nav-wrapper">
+              <button type="button" class="tab-scroll-arrow left" id="themeTabScrollLeft" aria-label="Scroll left">‹</button>
+              <div class="theme-tab-bar" id="themeTabBar">
+                <button type="button" class="theme-tab-btn active" data-target="themeTabColors">🎨 Colors & Layout</button>
+                <button type="button" class="theme-tab-btn" data-target="themeTabCheckbox">☑️ Checkbox & Spinner</button>
+                <button type="button" class="theme-tab-btn" data-target="themeTabLabels">📝 i18n Labels</button>
+                <button type="button" class="theme-tab-btn" data-target="themeTabAria">♿ ARIA / A11y</button>
+              </div>
+              <button type="button" class="tab-scroll-arrow right" id="themeTabScrollRight" aria-label="Scroll right">›</button>
             </div>
             
             <!-- SECTION 1: Colors & Layout -->
@@ -535,19 +539,94 @@ function wireThemeWizard(root, key) {
   const ariaErrorInput = root.querySelector("#themeAriaError");
 
   // Wire Tab Navigation
+  const tabTabBar = root.querySelector("#themeTabBar");
+  const tabScrollLeftBtn = root.querySelector("#themeTabScrollLeft");
+  const tabScrollRightBtn = root.querySelector("#themeTabScrollRight");
   const tabBtns = root.querySelectorAll(".theme-tab-btn");
   const tabContents = root.querySelectorAll(".theme-tab-content");
+
+  function updateScrollArrows() {
+    if (!tabTabBar) return;
+    const maxScroll = tabTabBar.scrollWidth - tabTabBar.clientWidth;
+    if (maxScroll <= 2) {
+      if (tabScrollLeftBtn) tabScrollLeftBtn.style.display = "none";
+      if (tabScrollRightBtn) tabScrollRightBtn.style.display = "none";
+    } else {
+      if (tabScrollLeftBtn) {
+        tabScrollLeftBtn.style.display = "flex";
+        if (tabTabBar.scrollLeft <= 2) tabScrollLeftBtn.classList.add("disabled");
+        else tabScrollLeftBtn.classList.remove("disabled");
+      }
+      if (tabScrollRightBtn) {
+        tabScrollRightBtn.style.display = "flex";
+        if (tabTabBar.scrollLeft >= maxScroll - 2) tabScrollRightBtn.classList.add("disabled");
+        else tabScrollRightBtn.classList.remove("disabled");
+      }
+    }
+  }
+
+  if (tabScrollLeftBtn && tabTabBar) {
+    tabScrollLeftBtn.onclick = (e) => {
+      e.preventDefault();
+      tabTabBar.scrollBy({ left: -140, behavior: "smooth" });
+    };
+  }
+  if (tabScrollRightBtn && tabTabBar) {
+    tabScrollRightBtn.onclick = (e) => {
+      e.preventDefault();
+      tabTabBar.scrollBy({ left: 140, behavior: "smooth" });
+    };
+  }
+
+  if (tabTabBar) {
+    tabTabBar.addEventListener("scroll", updateScrollArrows);
+    window.addEventListener("resize", updateScrollArrows);
+    setTimeout(updateScrollArrows, 100);
+
+    // Mouse wheel horizontal scrolling
+    tabTabBar.addEventListener("wheel", (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        tabTabBar.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+
+    // Click & Drag horizontal scroll on tab bar
+    let isMouseDown = false;
+    let startX = 0;
+    let scrollLeftStart = 0;
+
+    tabTabBar.addEventListener("mousedown", (e) => {
+      isMouseDown = true;
+      startX = e.pageX - tabTabBar.offsetLeft;
+      scrollLeftStart = tabTabBar.scrollLeft;
+      tabTabBar.classList.add("is-dragging");
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (!isMouseDown) return;
+      const x = e.pageX - tabTabBar.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      tabTabBar.scrollLeft = scrollLeftStart - walk;
+    });
+
+    window.addEventListener("mouseup", () => {
+      if (isMouseDown) {
+        isMouseDown = false;
+        tabTabBar.classList.remove("is-dragging");
+      }
+    });
+  }
+
   tabBtns.forEach(btn => {
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-target");
-      tabBtns.forEach(b => {
-        b.classList.remove("active");
-        b.style.color = "#94a3b8";
-        b.style.borderBottomColor = "transparent";
-      });
+      tabBtns.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      btn.style.color = "#3b82f6";
-      btn.style.borderBottomColor = "#3b82f6";
+
+      // Auto-center active tab smoothly into view
+      btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+
       tabContents.forEach(c => {
         if (c.id === targetId) {
           c.style.display = "block";
@@ -555,6 +634,7 @@ function wireThemeWizard(root, key) {
           c.style.display = "none";
         }
       });
+      updateScrollArrows();
     });
   });
 
@@ -1005,6 +1085,87 @@ function wireThemeWizard(root, key) {
   flex-direction: column;
   gap: 12px;
   min-width: 0;
+}
+.theme-tab-nav-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  margin-bottom: 14px;
+  background: var(--bg-card, rgba(15, 23, 42, 0.6));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.12));
+  border-radius: 10px;
+  padding: 4px;
+  min-width: 0;
+}
+.theme-tab-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  padding: 2px;
+  width: 100%;
+}
+.theme-tab-bar::-webkit-scrollbar {
+  display: none;
+}
+.theme-tab-bar.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+.theme-tab-btn {
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-muted, #94a3b8);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+.theme-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+.theme-tab-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+.tab-scroll-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(30, 41, 59, 0.9);
+  color: #cbd5e1;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  z-index: 2;
+}
+.tab-scroll-arrow:hover {
+  background: #334155;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
+.tab-scroll-arrow.disabled {
+  opacity: 0.3;
+  pointer-events: none;
 }
 .theme-controls-row {
   display: flex;
