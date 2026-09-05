@@ -396,28 +396,44 @@ function wireThemeWizard(root, key) {
       recompileBtn.textContent = "Compiling Widget...";
 
       try {
-        const res = await fetch("/recompile-widget", {
+        const payload = {
+          bg: bgInput.value,
+          color: colorInput.value,
+          border: borderInput.value,
+          focus: focusInput.value,
+          radius: radiusInput.value + "px",
+          width: widthInput.value + "px",
+          textIdle: textIdleInput ? textIdleInput.value : "Verify with Cap",
+          textVerifying: textVerifyingInput ? textVerifyingInput.value : "Solving Proof-of-Work...",
+          textDone: textDoneInput ? textDoneInput.value : "Verification Complete",
+          textError: textErrorInput ? textErrorInput.value : "Failed to verify"
+        };
+
+        let res = await fetch("/recompile-widget", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            bg: bgInput.value,
-            color: colorInput.value,
-            border: borderInput.value,
-            focus: focusInput.value,
-            radius: radiusInput.value + "px",
-            width: widthInput.value + "px",
-            textIdle: textIdleInput ? textIdleInput.value : "Verify with Cap",
-            textVerifying: textVerifyingInput ? textVerifyingInput.value : "Solving Proof-of-Work...",
-            textDone: textDoneInput ? textDoneInput.value : "Verification Complete",
-            textError: textErrorInput ? textErrorInput.value : "Failed to verify"
-          })
+          body: JSON.stringify(payload)
         });
 
-        const data = await res.json();
-        if (data.success) {
+        if (res.status === 404) {
+          res = await fetch("/assets/recompile-widget", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        let data;
+        try {
+          data = await res.json();
+        } catch (_) {
+          data = { error: await res.text() };
+        }
+
+        if (res.ok && data.success) {
           alert("Widget compiled successfully! The dynamic theme and custom labels are now baked directly into assets/widget.js.");
         } else {
-          alert("Compilation failed: " + (data.error || "Unknown error"));
+          alert("Compilation failed: " + (data.error || data.message || ("HTTP " + res.status + " " + res.statusText)));
         }
       } catch (err) {
         alert("Compilation failed: " + err.message);
@@ -486,11 +502,12 @@ function wireThemeWizard(root, key) {
   const customStyles = `
 /* --- Cap Widget Theming Wizard Styles --- */
 .theme-wizard-container {
-  background: var(--bg-card, #ffffff);
-  border: 1px solid var(--border-color, #e2e8f0);
+  background: var(--card-bg, var(--bg-card, rgba(255, 255, 255, 0.03)));
+  border: 1px solid var(--border-color, var(--border, rgba(255, 255, 255, 0.1)));
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 24px;
+  color: var(--text-color, var(--text-primary, inherit));
 }
 .theme-wizard-grid {
   display: grid;
@@ -526,24 +543,25 @@ function wireThemeWizard(root, key) {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-secondary, #718096);
+  color: var(--text-muted, var(--text-secondary, #a0aec0));
 }
 .theme-select {
   padding: 8px 12px;
   border-radius: 6px;
-  border: 1px solid var(--border-color, #e2e8f0);
-  background: var(--bg-input, #f7fafc);
-  color: var(--text-primary, #1a202c);
+  border: 1px solid var(--border-color, var(--border, rgba(255, 255, 255, 0.15)));
+  background: var(--input-bg, var(--bg-input, rgba(0, 0, 0, 0.2)));
+  color: var(--text-color, var(--text-primary, inherit));
   font-size: 13px;
   outline: none;
   width: 100%;
 }
 .color-picker-wrapper {
   display: flex;
-  border: 1px solid var(--border-color, #e2e8f0);
+  border: 1px solid var(--border-color, var(--border, rgba(255, 255, 255, 0.15)));
   border-radius: 6px;
   overflow: hidden;
   height: 36px;
+  background: var(--input-bg, var(--bg-input, rgba(0, 0, 0, 0.2)));
 }
 .color-picker-wrapper input[type="color"] {
   border: none;
@@ -559,14 +577,14 @@ function wireThemeWizard(root, key) {
   flex: 1;
   font-size: 13px;
   font-family: monospace;
-  background: var(--bg-input, #f7fafc);
-  color: var(--text-primary, #1a202c);
+  background: transparent;
+  color: var(--text-color, var(--text-primary, inherit));
   outline: none;
 }
 .theme-field-range input[type="range"] {
   width: 100%;
   height: 6px;
-  background: var(--border-color, #e2e8f0);
+  background: var(--border-color, var(--border, rgba(255, 255, 255, 0.15)));
   border-radius: 3px;
   outline: none;
   margin: 10px 0;
@@ -577,7 +595,7 @@ function wireThemeWizard(root, key) {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--blue, #3182ce);
+  background: var(--accent, var(--primary, var(--blue, #3182ce)));
   cursor: pointer;
 }
 .theme-wizard-preview {
@@ -590,12 +608,12 @@ function wireThemeWizard(root, key) {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-secondary, #718096);
+  color: var(--text-muted, var(--text-secondary, #a0aec0));
 }
 .preview-box-wrapper {
-  border: 1px solid var(--border-color, #e2e8f0);
+  border: 1px solid var(--border-color, var(--border, rgba(255, 255, 255, 0.1)));
   border-radius: 8px;
-  background: var(--bg-preview, #f7fafc);
+  background: var(--bg-preview, var(--card-bg, rgba(0, 0, 0, 0.15)));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -617,23 +635,23 @@ function wireThemeWizard(root, key) {
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: var(--text-secondary, #718096);
-  background: var(--bg-card, #ffffff);
-  border: 1px solid var(--border-color, #e2e8f0);
+  color: var(--text-muted, var(--text-secondary, #a0aec0));
+  background: var(--card-bg, var(--bg-card, rgba(255, 255, 255, 0.05)));
+  border: 1px solid var(--border-color, var(--border, rgba(255, 255, 255, 0.1)));
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
 }
 .preview-reset-btn:hover {
-  background: var(--bg-input, #f7fafc);
-  color: var(--text-primary, #1a202c);
+  background: var(--input-bg, var(--bg-input, rgba(255, 255, 255, 0.1)));
+  color: var(--text-color, var(--text-primary, inherit));
 }
 .theme-save-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--blue, #3182ce);
+  background: var(--accent, var(--primary, var(--blue, #3182ce)));
   color: #ffffff;
   border: none;
   padding: 10px 16px;
@@ -642,14 +660,13 @@ function wireThemeWizard(root, key) {
   font-weight: 600;
   cursor: pointer;
   width: 100%;
-  transition: background 0.2s;
+  transition: opacity 0.2s;
 }
 .theme-save-btn:hover {
-  background: var(--blue-hover, #2b6cb0);
+  opacity: 0.9;
 }
 .theme-save-btn:disabled {
-  background: var(--border-color, #e2e8f0);
-  color: var(--text-secondary, #718096);
+  opacity: 0.5;
   cursor: not-allowed;
 }
 `;
