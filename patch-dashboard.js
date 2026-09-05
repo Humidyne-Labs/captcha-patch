@@ -482,6 +482,22 @@ function wireThemeWizard(root, key) {
     console.error("⚠️ Failed to patch assets.js:", err.message);
   }
 
+  // 1c. Patch siteverify.js to prevent TypeError crash on missing response tokens
+  const siteverifyJsPath = path.join(rootDir, "standalone/src/siteverify.js");
+  try {
+    let svContent = await fs.readFile(siteverifyJsPath, "utf-8");
+    if (!svContent.includes("if (!response || typeof response !== 'string')")) {
+      svContent = svContent.replace(
+        /const\s*\{\s*secret\s*,\s*response\s*\}\s*=\s*body\s*;?/g,
+        `const { secret, response } = body || {};\n    if (!response || typeof response !== "string") {\n      return { success: false, error: "invalid-input-response" };\n    }`
+      );
+      await fs.writeFile(siteverifyJsPath, svContent, "utf-8");
+      console.log("✅ siteverify.js patched successfully with response guard!");
+    }
+  } catch (err) {
+    console.log("ℹ️ siteverify.js not found or skipping patch:", err.message);
+  }
+
   // 2. Patch index.html
   console.log(`📝 Patching ${indexHtmlPath}...`);
   let htmlContent = await fs.readFile(indexHtmlPath, "utf-8");
@@ -554,6 +570,10 @@ function wireThemeWizard(root, key) {
   font-size: 13px;
   outline: none;
   width: 100%;
+}
+.theme-select option {
+  background: #1e293b;
+  color: #f8fafc;
 }
 .color-picker-wrapper {
   display: flex;

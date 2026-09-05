@@ -86,6 +86,7 @@ COPY --from=builder /build/widget/src/cap-floating.min.js /usr/src/app/assets/fl
 
 # 2. Copy the patched version-specific assets server directly
 COPY --from=builder /build/standalone/src/assets.js /usr/src/app/src/assets.js
+COPY --from=builder /build/standalone/src/siteverify.js /usr/src/app/src/siteverify.js
 
 # 3. Copy the patched public dashboard UI assets
 COPY --from=builder /build/standalone/public /usr/src/app/public
