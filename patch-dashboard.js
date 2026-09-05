@@ -5,9 +5,24 @@ async function patch() {
   const rootDir = process.argv[2] || ".";
   console.log(`🚀 Patching Cap Standalone files in: ${rootDir}`);
 
-  const dashboardJsPath = path.join(rootDir, "standalone/public/js/dashboard.js");
-  const indexHtmlPath = path.join(rootDir, "standalone/public/index.html");
-  const styleCssPath = path.join(rootDir, "standalone/public/assets/style.css");
+  let dashboardJsPath = path.join(rootDir, "standalone/public/js/dashboard.js");
+  let indexHtmlPath = path.join(rootDir, "standalone/public/index.html");
+  let styleCssPath = path.join(rootDir, "standalone/public/assets/style.css");
+
+  try {
+    await fs.access(dashboardJsPath);
+  } catch {
+    dashboardJsPath = path.join(rootDir, "public/js/dashboard.js");
+    indexHtmlPath = path.join(rootDir, "public/index.html");
+    styleCssPath = path.join(rootDir, "public/assets/style.css");
+  }
+
+  try {
+    await fs.access(dashboardJsPath);
+  } catch {
+    console.log(`ℹ️ Target files not found at ${dashboardJsPath}. Pass target directory as argument: node patch-dashboard.js /path/to/cap`);
+    return;
+  }
 
   // 1. Patch dashboard.js
   console.log(`📝 Patching ${dashboardJsPath}...`);
@@ -431,56 +446,56 @@ function wireThemeWizard(root, key) {
   if (!presetSelect) return;
 
   const presets = {
-    light: { bg: "#fdfdfd", color: "#212121", border: "#dddddd", focus: "#0066cc", radius: "14", width: "260", height: "54", checkboxSize: "25" },
-    dark: { bg: "#1a1a1a", color: "#f7fafc", border: "#333333", focus: "#3182ce", radius: "14", width: "260", height: "54", checkboxSize: "25" },
-    warmAmber: { bg: "#fffbeb", color: "#78350f", border: "#fef3c7", focus: "#d97706", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    emerald: { bg: "#f0fdf4", color: "#14532d", border: "#dcfce7", focus: "#16a34a", radius: "16", width: "280", height: "54", checkboxSize: "25" },
-    cyberpunk: { bg: "#0d0e15", color: "#00ffcc", border: "#ff007f", focus: "#00ffcc", radius: "0", width: "300", height: "54", checkboxSize: "24" },
-    stealth: { bg: "#0f172a", color: "#94a3b8", border: "#1e293b", focus: "#38bdf8", radius: "8", width: "250", height: "50", checkboxSize: "24" },
-    midnightAmethyst: { bg: "#0a0518", color: "#c084fc", border: "#241242", focus: "#a855f7", radius: "12", width: "270", height: "54", checkboxSize: "25" },
-    dracula: { bg: "#282a36", color: "#f8f8f2", border: "#44475a", focus: "#bd93f9", radius: "8", width: "265", height: "54", checkboxSize: "25" },
-    nordicFrost: { bg: "#f8fafc", color: "#334155", border: "#e2e8f0", focus: "#0284c7", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    synthwave: { bg: "#1a0826", color: "#f472b6", border: "#f43f5e", focus: "#f43f5e", radius: "4", width: "290", height: "54", checkboxSize: "25" },
-    solarizedLight: { bg: "#fdf6e3", color: "#586e75", border: "#eee8d5", focus: "#268bd2", radius: "12", width: "260", height: "54", checkboxSize: "25" },
-    solarizedDark: { bg: "#002b36", color: "#839496", border: "#073642", focus: "#268bd2", radius: "12", width: "260", height: "54", checkboxSize: "25" },
-    gruvboxDark: { bg: "#282828", color: "#ebdbb2", border: "#3c3836", focus: "#fe8019", radius: "6", width: "270", height: "54", checkboxSize: "25" },
-    gruvboxLight: { bg: "#fbf1c7", color: "#3c3836", border: "#ebdbb2", focus: "#b57614", radius: "6", width: "270", height: "54", checkboxSize: "25" },
-    retroConsole: { bg: "#000000", color: "#33ff33", border: "#33ff33", focus: "#33ff33", radius: "0", width: "280", height: "52", checkboxSize: "24" },
-    oceanicDeep: { bg: "#04151f", color: "#2ec4b6", border: "#113f59", focus: "#2ec4b6", radius: "14", width: "260", height: "54", checkboxSize: "25" },
-    rosePine: { bg: "#191724", color: "#e0def4", border: "#26233a", focus: "#ebbcac", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    rosePineDawn: { bg: "#faf4ed", color: "#575279", border: "#f2e9e1", focus: "#d7827e", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    rosePineMoon: { bg: "#232136", color: "#e0def4", border: "#393552", focus: "#c4a7e7", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    minimalStark: { bg: "#ffffff", color: "#111111", border: "#111111", focus: "#111111", radius: "0", width: "250", height: "50", checkboxSize: "24" },
-    coffeeGrind: { bg: "#2b1e17", color: "#d4bda8", border: "#4a3525", focus: "#8c6239", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    royalVelvet: { bg: "#0a1128", color: "#e2e8f0", border: "#1c2541", focus: "#cca43b", radius: "16", width: "275", height: "54", checkboxSize: "25" },
-    tokyoNight: { bg: "#1a1b26", color: "#a9b1d6", border: "#24283b", focus: "#7aa2f7", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    crimsonRust: { bg: "#1c0d0d", color: "#ff6b6b", border: "#3d1c1c", focus: "#e63946", radius: "12", width: "265", height: "54", checkboxSize: "25" },
-    catppuccinMocha: { bg: "#1e1e2e", color: "#cdd6f4", border: "#313244", focus: "#cba6f7", radius: "12", width: "260", height: "54", checkboxSize: "25" },
-    catppuccinLatte: { bg: "#eff1f5", color: "#4c4f69", border: "#e6e9ef", focus: "#8839ef", radius: "12", width: "260", height: "54", checkboxSize: "25" },
-    catppuccinMacchiato: { bg: "#24273a", color: "#cad3f5", border: "#363a4f", focus: "#f5a97f", radius: "12", width: "260", height: "54", checkboxSize: "25" },
-    catppuccinFrappe: { bg: "#303446", color: "#c6d0f5", border: "#414559", focus: "#ca9ee6", radius: "12", width: "260", height: "54", checkboxSize: "25" },
-    monokaiPro: { bg: "#2d2a2e", color: "#fcfcfa", border: "#403e41", focus: "#ffd866", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    oneDarkPro: { bg: "#282c34", color: "#abb2bf", border: "#3e4451", focus: "#61afef", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    nordicNight: { bg: "#2e3440", color: "#eceff4", border: "#4c566a", focus: "#88c0d0", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    kanagawaDragon: { bg: "#181616", color: "#c5c9c5", border: "#282727", focus: "#e6c384", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    kanagawaWave: { bg: "#1f1f28", color: "#dcd7ba", border: "#2a2a37", focus: "#7e9cd8", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    everforestDark: { bg: "#2d353b", color: "#d3c6aa", border: "#3d484f", focus: "#a7c080", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    everforestLight: { bg: "#fdf6e3", color: "#5c6a72", border: "#f4f0d9", focus: "#8da101", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    materialOcean: { bg: "#0f111a", color: "#8f93a2", border: "#1f2233", focus: "#80cbd0", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    nightOwl: { bg: "#011627", color: "#d6deeb", border: "#0b2942", focus: "#82aaff", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    palenight: { bg: "#292d3e", color: "#a6accd", border: "#3a3f58", focus: "#c792ea", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    cobalt2: { bg: "#193549", color: "#e1efef", border: "#152c3e", focus: "#ffc600", radius: "10", width: "265", height: "54", checkboxSize: "25" },
-    andromeda: { bg: "#262a33", color: "#d5dec1", border: "#323846", focus: "#00e676", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    shadesOfPurple: { bg: "#2d2b55", color: "#ffffff", border: "#1e1e3f", focus: "#fad000", radius: "12", width: "260", height: "54", checkboxSize: "25" },
-    horizonDark: { bg: "#1c1e26", color: "#d5d8da", border: "#2e303e", focus: "#e95678", radius: "8", width: "260", height: "54", checkboxSize: "25" },
-    cyberneticGold: { bg: "#121212", color: "#e5c07b", border: "#282828", focus: "#d19a66", radius: "4", width: "270", height: "52", checkboxSize: "24" },
-    midnightEmerald: { bg: "#061a14", color: "#a7f3d0", border: "#0e382c", focus: "#10b981", radius: "14", width: "265", height: "54", checkboxSize: "25" },
-    matchaLatte: { bg: "#f0fdf4", color: "#166534", border: "#bbf7d0", focus: "#22c55e", radius: "14", width: "260", height: "54", checkboxSize: "25" },
-    sunsetGlow: { bg: "#1a0f1d", color: "#f472b6", border: "#3b0764", focus: "#f97316", radius: "12", width: "270", height: "54", checkboxSize: "25" },
-    matrixCyber: { bg: "#050d08", color: "#22c55e", border: "#14532d", focus: "#4ade80", radius: "2", width: "280", height: "52", checkboxSize: "24" },
-    lavenderMist: { bg: "#faf5ff", color: "#6b21a8", border: "#e9d5ff", focus: "#a855f7", radius: "16", width: "260", height: "54", checkboxSize: "25" },
-    oxfordNavy: { bg: "#0f172a", color: "#e2e8f0", border: "#1e293b", focus: "#38bdf8", radius: "10", width: "260", height: "54", checkboxSize: "25" },
-    cherryBlossom: { bg: "#fff5f7", color: "#9d174d", border: "#fbcfe8", focus: "#ec4899", radius: "14", width: "260", height: "54", checkboxSize: "25" }
+    light: { bg: "#ffffff", color: "#0f172a", border: "#e2e8f0", focus: "#2563eb", radius: "12", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #cbd5e1", checkboxBg: "#f8fafc", spinnerColor: "#2563eb", spinnerBg: "#e2e8f0", spinnerThickness: "3" },
+    dark: { bg: "#1e293b", color: "#f8fafc", border: "#334155", focus: "#38bdf8", radius: "12", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #475569", checkboxBg: "#0f172a", spinnerColor: "#38bdf8", spinnerBg: "#334155", spinnerThickness: "3" },
+    warmAmber: { bg: "#fffbeb", color: "#78350f", border: "#fde68a", focus: "#d97706", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #fcd34d", checkboxBg: "#fef3c7", spinnerColor: "#d97706", spinnerBg: "#fde68a", spinnerThickness: "3" },
+    emerald: { bg: "#f0fdf4", color: "#14532d", border: "#bbf7d0", focus: "#16a34a", radius: "14", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "8", checkboxMargin: "2", checkboxBorder: "1.5px solid #86efac", checkboxBg: "#dcfce7", spinnerColor: "#16a34a", spinnerBg: "#bbf7d0", spinnerThickness: "3" },
+    cyberpunk: { bg: "#0d0e15", color: "#00ffcc", border: "#ff007f", focus: "#00ffcc", radius: "0", width: "280", height: "52", checkboxSize: "22", checkboxRadius: "0", checkboxMargin: "2", checkboxBorder: "2px solid #ff007f", checkboxBg: "#180022", spinnerColor: "#00ffcc", spinnerBg: "#3d0026", spinnerThickness: "4" },
+    stealth: { bg: "#0f172a", color: "#94a3b8", border: "#1e293b", focus: "#38bdf8", radius: "8", width: "260", height: "50", checkboxSize: "22", checkboxRadius: "4", checkboxMargin: "2", checkboxBorder: "1.5px solid #334155", checkboxBg: "#020617", spinnerColor: "#38bdf8", spinnerBg: "#1e293b", spinnerThickness: "3" },
+    midnightAmethyst: { bg: "#0f0921", color: "#e9d5ff", border: "#2e1a47", focus: "#c084fc", radius: "14", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "8", checkboxMargin: "2", checkboxBorder: "1.5px solid #4c1d95", checkboxBg: "#1e1035", spinnerColor: "#c084fc", spinnerBg: "#2e1a47", spinnerThickness: "3" },
+    dracula: { bg: "#282a36", color: "#f8f8f2", border: "#44475a", focus: "#bd93f9", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #6272a4", checkboxBg: "#21222c", spinnerColor: "#bd93f9", spinnerBg: "#44475a", spinnerThickness: "3" },
+    nordicFrost: { bg: "#f8fafc", color: "#1e293b", border: "#e2e8f0", focus: "#0284c7", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #cbd5e1", checkboxBg: "#f1f5f9", spinnerColor: "#0284c7", spinnerBg: "#e2e8f0", spinnerThickness: "3" },
+    synthwave: { bg: "#1a0826", color: "#f472b6", border: "#a21caf", focus: "#f43f5e", radius: "6", width: "280", height: "54", checkboxSize: "24", checkboxRadius: "4", checkboxMargin: "2", checkboxBorder: "1.5px solid #f43f5e", checkboxBg: "#2e0c42", spinnerColor: "#f43f5e", spinnerBg: "#581c87", spinnerThickness: "4" },
+    solarizedLight: { bg: "#fdf6e3", color: "#586e75", border: "#eee8d5", focus: "#268bd2", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #93a1a1", checkboxBg: "#f5efdc", spinnerColor: "#268bd2", spinnerBg: "#eee8d5", spinnerThickness: "3" },
+    solarizedDark: { bg: "#002b36", color: "#839496", border: "#073642", focus: "#268bd2", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #586e75", checkboxBg: "#001e26", spinnerColor: "#268bd2", spinnerBg: "#073642", spinnerThickness: "3" },
+    gruvboxDark: { bg: "#282828", color: "#ebdbb2", border: "#3c3836", focus: "#fe8019", radius: "8", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "4", checkboxMargin: "2", checkboxBorder: "1.5px solid #504945", checkboxBg: "#1d2021", spinnerColor: "#fe8019", spinnerBg: "#3c3836", spinnerThickness: "3" },
+    gruvboxLight: { bg: "#fbf1c7", color: "#3c3836", border: "#ebdbb2", focus: "#b57614", radius: "8", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "4", checkboxMargin: "2", checkboxBorder: "1.5px solid #d5c4a1", checkboxBg: "#f2e5b1", spinnerColor: "#b57614", spinnerBg: "#ebdbb2", spinnerThickness: "3" },
+    retroConsole: { bg: "#000000", color: "#33ff33", border: "#116611", focus: "#33ff33", radius: "0", width: "280", height: "50", checkboxSize: "22", checkboxRadius: "0", checkboxMargin: "2", checkboxBorder: "2px solid #33ff33", checkboxBg: "#002200", spinnerColor: "#33ff33", spinnerBg: "#004400", spinnerThickness: "4" },
+    oceanicDeep: { bg: "#04151f", color: "#e0f2fe", border: "#0e3a52", focus: "#2ec4b6", radius: "12", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #14597d", checkboxBg: "#020b10", spinnerColor: "#2ec4b6", spinnerBg: "#0e3a52", spinnerThickness: "3" },
+    rosePine: { bg: "#191724", color: "#e0def4", border: "#26233a", focus: "#ebbcba", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #31748f", checkboxBg: "#1f1d2e", spinnerColor: "#ebbcba", spinnerBg: "#26233a", spinnerThickness: "3" },
+    rosePineDawn: { bg: "#faf4ed", color: "#575279", border: "#f2e9e1", focus: "#d7827e", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #dfdad9", checkboxBg: "#fffaf3", spinnerColor: "#d7827e", spinnerBg: "#f2e9e1", spinnerThickness: "3" },
+    rosePineMoon: { bg: "#232136", color: "#e0def4", border: "#393552", focus: "#c4a7e7", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #44415a", checkboxBg: "#2a273f", spinnerColor: "#c4a7e7", spinnerBg: "#393552", spinnerThickness: "3" },
+    minimalStark: { bg: "#ffffff", color: "#000000", border: "#000000", focus: "#000000", radius: "0", width: "260", height: "50", checkboxSize: "22", checkboxRadius: "0", checkboxMargin: "2", checkboxBorder: "2px solid #000000", checkboxBg: "#ffffff", spinnerColor: "#000000", spinnerBg: "#e5e5e5", spinnerThickness: "3" },
+    coffeeGrind: { bg: "#2b1e17", color: "#f3e9dc", border: "#4a3525", focus: "#c08a5b", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #6b4d36", checkboxBg: "#1f1510", spinnerColor: "#c08a5b", spinnerBg: "#4a3525", spinnerThickness: "3" },
+    royalVelvet: { bg: "#0a1128", color: "#f1f5f9", border: "#1c2541", focus: "#cca43b", radius: "14", width: "275", height: "54", checkboxSize: "24", checkboxRadius: "8", checkboxMargin: "2", checkboxBorder: "1.5px solid #3a506b", checkboxBg: "#050914", spinnerColor: "#cca43b", spinnerBg: "#1c2541", spinnerThickness: "3" },
+    tokyoNight: { bg: "#1a1b26", color: "#a9b1d6", border: "#24283b", focus: "#7aa2f7", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #414868", checkboxBg: "#16161e", spinnerColor: "#7aa2f7", spinnerBg: "#24283b", spinnerThickness: "3" },
+    crimsonRust: { bg: "#1c0d0d", color: "#fca5a5", border: "#3d1c1c", focus: "#e63946", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #632b2b", checkboxBg: "#120707", spinnerColor: "#e63946", spinnerBg: "#3d1c1c", spinnerThickness: "3" },
+    catppuccinMocha: { bg: "#1e1e2e", color: "#cdd6f4", border: "#313244", focus: "#cba6f7", radius: "12", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #45475a", checkboxBg: "#181825", spinnerColor: "#cba6f7", spinnerBg: "#313244", spinnerThickness: "3" },
+    catppuccinLatte: { bg: "#eff1f5", color: "#4c4f69", border: "#ccd0da", focus: "#8839ef", radius: "12", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #bcc0cc", checkboxBg: "#e6e9ef", spinnerColor: "#8839ef", spinnerBg: "#ccd0da", spinnerThickness: "3" },
+    catppuccinMacchiato: { bg: "#24273a", color: "#cad3f5", border: "#363a4f", focus: "#f5a97f", radius: "12", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #494d64", checkboxBg: "#1e2030", spinnerColor: "#f5a97f", spinnerBg: "#363a4f", spinnerThickness: "3" },
+    catppuccinFrappe: { bg: "#303446", color: "#c6d0f5", border: "#414559", focus: "#ca9ee6", radius: "12", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #51576d", checkboxBg: "#292c3c", spinnerColor: "#ca9ee6", spinnerBg: "#414559", spinnerThickness: "3" },
+    monokaiPro: { bg: "#2d2a2e", color: "#fcfcfa", border: "#403e41", focus: "#ffd866", radius: "8", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #5b585c", checkboxBg: "#221f22", spinnerColor: "#ffd866", spinnerBg: "#403e41", spinnerThickness: "3" },
+    oneDarkPro: { bg: "#282c34", color: "#abb2bf", border: "#3e4451", focus: "#61afef", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #545862", checkboxBg: "#21252b", spinnerColor: "#61afef", spinnerBg: "#3e4451", spinnerThickness: "3" },
+    nordicNight: { bg: "#2e3440", color: "#eceff4", border: "#4c566a", focus: "#88c0d0", radius: "8", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #434c5e", checkboxBg: "#242933", spinnerColor: "#88c0d0", spinnerBg: "#4c566a", spinnerThickness: "3" },
+    kanagawaDragon: { bg: "#181616", color: "#c5c9c5", border: "#282727", focus: "#e6c384", radius: "8", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #393836", checkboxBg: "#121010", spinnerColor: "#e6c384", spinnerBg: "#282727", spinnerThickness: "3" },
+    kanagawaWave: { bg: "#1f1f28", color: "#dcd7ba", border: "#2a2a37", focus: "#7e9cd8", radius: "8", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #363646", checkboxBg: "#16161d", spinnerColor: "#7e9cd8", spinnerBg: "#2a2a37", spinnerThickness: "3" },
+    everforestDark: { bg: "#2d353b", color: "#d3c6aa", border: "#3d484f", focus: "#a7c080", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #4f5b62", checkboxBg: "#232a2e", spinnerColor: "#a7c080", spinnerBg: "#3d484f", spinnerThickness: "3" },
+    everforestLight: { bg: "#fdf6e3", color: "#5c6a72", border: "#e0dcbe", focus: "#8da101", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #bdba9d", checkboxBg: "#f4eed8", spinnerColor: "#8da101", spinnerBg: "#e0dcbe", spinnerThickness: "3" },
+    materialOcean: { bg: "#0f111a", color: "#8f93a2", border: "#1f2233", focus: "#80cbd0", radius: "8", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #30354d", checkboxBg: "#090a10", spinnerColor: "#80cbd0", spinnerBg: "#1f2233", spinnerThickness: "3" },
+    nightOwl: { bg: "#011627", color: "#d6deeb", border: "#0b2942", focus: "#82aaff", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #13426b", checkboxBg: "#010d18", spinnerColor: "#82aaff", spinnerBg: "#0b2942", spinnerThickness: "3" },
+    palenight: { bg: "#292d3e", color: "#a6accd", border: "#3a3f58", focus: "#c792ea", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #4e5578", checkboxBg: "#1f2230", spinnerColor: "#c792ea", spinnerBg: "#3a3f58", spinnerThickness: "3" },
+    cobalt2: { bg: "#193549", color: "#e1efef", border: "#152c3e", focus: "#ffc600", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #234966", checkboxBg: "#0d2130", spinnerColor: "#ffc600", spinnerBg: "#152c3e", spinnerThickness: "3" },
+    andromeda: { bg: "#262a33", color: "#d5dec1", border: "#323846", focus: "#00e676", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #475063", checkboxBg: "#1b1e24", spinnerColor: "#00e676", spinnerBg: "#323846", spinnerThickness: "3" },
+    shadesOfPurple: { bg: "#2d2b55", color: "#ffffff", border: "#1e1e3f", focus: "#fad000", radius: "12", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #3d3b73", checkboxBg: "#1d1b3a", spinnerColor: "#fad000", spinnerBg: "#1e1e3f", spinnerThickness: "3" },
+    horizonDark: { bg: "#1c1e26", color: "#d5d8da", border: "#2e303e", focus: "#e95678", radius: "8", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #43475c", checkboxBg: "#121319", spinnerColor: "#e95678", spinnerBg: "#2e303e", spinnerThickness: "3" },
+    cyberneticGold: { bg: "#121212", color: "#e5c07b", border: "#282828", focus: "#d19a66", radius: "4", width: "270", height: "52", checkboxSize: "22", checkboxRadius: "2", checkboxMargin: "2", checkboxBorder: "1.5px solid #3e3e3e", checkboxBg: "#080808", spinnerColor: "#d19a66", spinnerBg: "#282828", spinnerThickness: "3" },
+    midnightEmerald: { bg: "#061a14", color: "#a7f3d0", border: "#0e382c", focus: "#10b981", radius: "14", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "8", checkboxMargin: "2", checkboxBorder: "1.5px solid #165b47", checkboxBg: "#020d0a", spinnerColor: "#10b981", spinnerBg: "#0e382c", spinnerThickness: "3" },
+    matchaLatte: { bg: "#f0fdf4", color: "#166534", border: "#bbf7d0", focus: "#22c55e", radius: "14", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "8", checkboxMargin: "2", checkboxBorder: "1.5px solid #86efac", checkboxBg: "#dcfee5", spinnerColor: "#22c55e", spinnerBg: "#bbf7d0", spinnerThickness: "3" },
+    sunsetGlow: { bg: "#1a0f1d", color: "#f472b6", border: "#3b0764", focus: "#f97316", radius: "12", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #581c87", checkboxBg: "#100813", spinnerColor: "#f97316", spinnerBg: "#3b0764", spinnerThickness: "3" },
+    matrixCyber: { bg: "#050d08", color: "#22c55e", border: "#14532d", focus: "#4ade80", radius: "2", width: "280", height: "52", checkboxSize: "22", checkboxRadius: "0", checkboxMargin: "2", checkboxBorder: "2px solid #16a34a", checkboxBg: "#020804", spinnerColor: "#4ade80", spinnerBg: "#14532d", spinnerThickness: "4" },
+    lavenderMist: { bg: "#faf5ff", color: "#6b21a8", border: "#e9d5ff", focus: "#a855f7", radius: "16", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "8", checkboxMargin: "2", checkboxBorder: "1.5px solid #d8b4fe", checkboxBg: "#f3e8ff", spinnerColor: "#a855f7", spinnerBg: "#e9d5ff", spinnerThickness: "3" },
+    oxfordNavy: { bg: "#0f172a", color: "#e2e8f0", border: "#1e293b", focus: "#38bdf8", radius: "10", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "6", checkboxMargin: "2", checkboxBorder: "1.5px solid #334155", checkboxBg: "#090e1a", spinnerColor: "#38bdf8", spinnerBg: "#1e293b", spinnerThickness: "3" },
+    cherryBlossom: { bg: "#fff5f7", color: "#9d174d", border: "#fbcfe8", focus: "#ec4899", radius: "14", width: "270", height: "54", checkboxSize: "24", checkboxRadius: "8", checkboxMargin: "2", checkboxBorder: "1.5px solid #f472b6", checkboxBg: "#fce7f3", spinnerColor: "#ec4899", spinnerBg: "#fbcfe8", spinnerThickness: "3" }
   };
 
   const heightInput = root.querySelector("#themeHeight");
@@ -701,7 +716,25 @@ function wireThemeWizard(root, key) {
       radiusInput.value = p.radius;
       widthInput.value = p.width;
       if (heightInput) heightInput.value = p.height || "54";
-      if (checkboxSizeInput) checkboxSizeInput.value = p.checkboxSize || "25";
+      if (checkboxSizeInput) checkboxSizeInput.value = p.checkboxSize || "24";
+      if (checkboxRadiusInput) checkboxRadiusInput.value = p.checkboxRadius || "6";
+      if (checkboxMarginInput) checkboxMarginInput.value = p.checkboxMargin || "2";
+      if (checkboxBorderInput) checkboxBorderInput.value = p.checkboxBorder || ("1px solid " + p.border);
+      
+      if (checkboxBgInput) {
+        checkboxBgInput.value = (p.checkboxBg && p.checkboxBg.startsWith("#")) ? p.checkboxBg.slice(0, 7) : p.bg;
+        if (checkboxBgText) checkboxBgText.value = (p.checkboxBg || p.bg).toUpperCase();
+      }
+      if (spinnerColorInput) {
+        spinnerColorInput.value = (p.spinnerColor && p.spinnerColor.startsWith("#")) ? p.spinnerColor.slice(0, 7) : p.focus;
+        if (spinnerColorText) spinnerColorText.value = (p.spinnerColor || p.focus).toUpperCase();
+      }
+      if (spinnerBgInput) {
+        spinnerBgInput.value = (p.spinnerBg && p.spinnerBg.startsWith("#")) ? p.spinnerBg.slice(0, 7) : p.border;
+        if (spinnerBgText) spinnerBgText.value = (p.spinnerBg || p.border).toUpperCase();
+      }
+      if (spinnerThicknessInput) spinnerThicknessInput.value = p.spinnerThickness || "3";
+
       updatePreviewAndCode();
     }
   });
@@ -952,23 +985,26 @@ function wireThemeWizard(root, key) {
   padding: 20px;
   margin-bottom: 24px;
   color: var(--text-color, var(--text-primary, inherit));
+  width: 100%;
+  box-sizing: border-box;
 }
 .theme-wizard-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 340px;
   gap: 24px;
   margin-top: 16px;
 }
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .theme-wizard-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
   }
 }
 .theme-wizard-controls {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
 }
 .theme-controls-row {
   display: flex;
@@ -976,11 +1012,13 @@ function wireThemeWizard(root, key) {
 }
 .theme-controls-row > div {
   flex: 1;
+  min-width: 0;
 }
 .theme-field, .theme-field-color, .theme-field-range {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 .theme-field label, .theme-field-color label, .theme-field-range label {
   font-size: 11px;
@@ -1069,6 +1107,7 @@ function wireThemeWizard(root, key) {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 .preview-label {
   font-size: 11px;
@@ -1085,17 +1124,28 @@ function wireThemeWizard(root, key) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px 20px;
+  padding: 24px 12px;
   gap: 16px;
   height: 100%;
   min-height: 180px;
   position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: auto;
 }
 .preview-box {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  padding: 4px;
+}
+.preview-box cap-widget {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .preview-reset-btn {
   display: flex;
@@ -1138,12 +1188,15 @@ function wireThemeWizard(root, key) {
 }
 `;
 
-  if (!cssContent.includes(".theme-wizard-container")) {
+  if (cssContent.includes("/* --- Cap Widget Theming Wizard Styles --- */")) {
+    const idx = cssContent.indexOf("/* --- Cap Widget Theming Wizard Styles --- */");
+    cssContent = cssContent.slice(0, idx) + customStyles;
+    await fs.writeFile(styleCssPath, cssContent, "utf-8");
+    console.log("✅ style.css updated successfully!");
+  } else {
     cssContent += customStyles;
     await fs.writeFile(styleCssPath, cssContent, "utf-8");
     console.log("✅ style.css appended successfully!");
-  } else {
-    console.log("ℹ️ style.css already contains theme-wizard styles.");
   }
 }
 
