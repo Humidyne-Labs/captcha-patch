@@ -393,7 +393,10 @@ function wireThemeWizard(root, key) {
   // Hook recompiler trigger button
   const recompileBtn = root.querySelector("#themeRecompileBtn");
   if (recompileBtn) {
-    recompileBtn.addEventListener("click", async () => {
+    recompileBtn.onclick = async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (recompileBtn.disabled) return;
       recompileBtn.disabled = true;
       const originalText = recompileBtn.innerHTML;
       recompileBtn.textContent = "Compiling Widget...";
@@ -434,18 +437,39 @@ function wireThemeWizard(root, key) {
         }
 
         if (res.ok && data.success) {
-          alert("Widget compiled successfully! The dynamic theme and custom labels are now baked directly into assets/widget.js.");
+          recompileBtn.innerHTML = "✓ Theme Applied & Compiled!";
+          recompileBtn.style.backgroundColor = "#10b981";
+          recompileBtn.style.color = "#ffffff";
+          setTimeout(() => {
+            recompileBtn.disabled = false;
+            recompileBtn.innerHTML = originalText;
+            recompileBtn.style.backgroundColor = "";
+            recompileBtn.style.color = "";
+            if (resetBtn) resetBtn.click();
+          }, 2500);
         } else {
-          alert("Compilation failed: " + (data.error || data.message || ("HTTP " + res.status + " " + res.statusText)));
+          recompileBtn.innerHTML = "❌ Failed: " + (data.error || "Server Error");
+          recompileBtn.style.backgroundColor = "#ef4444";
+          recompileBtn.style.color = "#ffffff";
+          setTimeout(() => {
+            recompileBtn.disabled = false;
+            recompileBtn.innerHTML = originalText;
+            recompileBtn.style.backgroundColor = "";
+            recompileBtn.style.color = "";
+          }, 3000);
         }
       } catch (err) {
-        alert("Compilation failed: " + err.message);
-      } finally {
-        recompileBtn.disabled = false;
-        recompileBtn.innerHTML = originalText;
-        if (resetBtn) resetBtn.click();
+        recompileBtn.innerHTML = "❌ Error: " + err.message;
+        recompileBtn.style.backgroundColor = "#ef4444";
+        recompileBtn.style.color = "#ffffff";
+        setTimeout(() => {
+          recompileBtn.disabled = false;
+          recompileBtn.innerHTML = originalText;
+          recompileBtn.style.backgroundColor = "";
+          recompileBtn.style.color = "";
+        }, 3000);
       }
-    });
+    };
   }
 
   presetSelect.value = "light";
@@ -474,7 +498,40 @@ function wireThemeWizard(root, key) {
     let assetsContent = await fs.readFile(assetsJsPath, "utf-8");
     const targetEnd = `    return content;\n  });`;
     if (assetsContent.includes(targetEnd)) {
-      const recompileRoute = `    return content;\n  })\n  .post("/recompile-widget", async ({ body, set }) => {\n    try {\n      const { bg, color, border, focus, radius, width, textIdle, textVerifying, textDone, textError } = body;\n      const templateCss = await Bun.file("/usr/src/app/assets/cap.css.template").text();\n      let newCss = templateCss\n        .replace(/--cap-background:\\s*[^;]+;/g, \`--cap-background: \${bg};\`)\n        .replace(/--cap-color:\\s*[^;]+;/g, \`--cap-color: \${color};\`)\n        .replace(/--cap-border-color:\\s*[^;]+;/g, \`--cap-border-color: \${border};\`)\n        .replace(/--cap-focus-ring:\\s*[^;]+;/g, \`--cap-focus-ring: \${focus};\`)\n        .replace(/--cap-border-radius:\\s*[^;]+;/g, \`--cap-border-radius: \${radius};\`)\n        .replace(/--cap-widget-width:\\s*[^;]+;/g, \`--cap-widget-width: \${width};\`);\n      const templateJs = await Bun.file("/usr/src/app/assets/widget.template.js").text();\n      const minifiedCss = newCss\n        .replace(/\\/\\*[\\s\\S]*?\\*\\//g, "")\n        .replace(/\\s+/g, " ")\n        .replace(/\\s*([{};:])\\s*/g, "$1")\n        .trim();\n      let finalJs = templateJs.replace("%%capCSS%%", () => minifiedCss);\n      if (textIdle && textVerifying && textDone && textError) {\n        finalJs = finalJs.replace(\n          "Verify with Cap/Solving Proof-of-Work.../Verification Complete/Failed to verify",\n          \`\${textIdle}/\${textVerifying}/\${textDone}/\${textError}\`\n        );\n      }\n      await Bun.write("/usr/src/app/assets/widget.js", finalJs);\n      try { if (typeof db !== "undefined" && db.set) await db.set("asset:widget.js", finalJs); } catch (_) {}\n      return { success: true };\n    } catch (err) {\n      set.status = 500;\n      return { error: err.message };\n    }\n  });`;
+      const recompileRoute = `    return content;
+  })
+  .post("/recompile-widget", async ({ body, set }) => {
+    try {
+      const { bg, color, border, focus, radius, width, textIdle, textVerifying, textDone, textError } = body;
+      const templateCss = await Bun.file("/usr/src/app/assets/cap.css.template").text();
+      const rep = (css, key, val) => css.replace(new RegExp("(" + key + "\\\\s*:\\\\s*)([^;\\\\}]+)", "g"), "$1" + val);
+      let newCss = rep(templateCss, "--cap-background", bg);
+      newCss = rep(newCss, "--cap-color", color);
+      newCss = rep(newCss, "--cap-border-color", border);
+      newCss = rep(newCss, "--cap-focus-ring", focus);
+      newCss = rep(newCss, "--cap-border-radius", radius);
+      newCss = rep(newCss, "--cap-widget-width", width);
+      const templateJs = await Bun.file("/usr/src/app/assets/widget.template.js").text();
+      const minifiedCss = newCss
+        .replace(/\\/\\*[\\s\\S]*?\\*\\//g, "")
+        .replace(/\\s+/g, " ")
+        .replace(/\\s*([{};:])\\s*/g, "$1")
+        .trim();
+      let finalJs = templateJs.replace("%%capCSS%%", () => minifiedCss);
+      if (textIdle && textVerifying && textDone && textError) {
+        finalJs = finalJs.replace(
+          "Verify with Cap/Solving Proof-of-Work.../Verification Complete/Failed to verify",
+          \`\${textIdle}/\${textVerifying}/\${textDone}/\${textError}\`
+        );
+      }
+      await Bun.write("/usr/src/app/assets/widget.js", finalJs);
+      try { if (typeof db !== "undefined" && db.set) await db.set("asset:widget.js", finalJs); } catch (_) {}
+      return { success: true };
+    } catch (err) {
+      set.status = 500;
+      return { error: err.message };
+    }
+  });`;
       assetsContent = assetsContent.replace(targetEnd, recompileRoute);
       await fs.writeFile(assetsJsPath, assetsContent, "utf-8");
       console.log("✅ assets.js patched successfully with /recompile-widget!");
