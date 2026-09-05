@@ -2,20 +2,22 @@ diff --git a/standalone/src/assets.js b/standalone/src/assets.js
 index d26c783..cba61bc 100644
 --- a/standalone/src/assets.js
 +++ b/standalone/src/assets.js
-@@ -90,7 +90,7 @@ export const assetsServer = new Elysia({
+@@ -90,7 +90,8 @@ export const assetsServer = new Elysia({
    })
    .get("/widget.js", async ({ set }) => {
      set.headers["Content-Type"] = "text/javascript";
 -    const content = await db.get("asset:widget.js");
++    set.headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
 +    const content = await Bun.file("/usr/src/app/assets/widget.js").text();
      if (!content) {
        set.status = 503;
        return "Asset not cached yet. If this persists, check the server logs for asset fetch errors.";
-@@ -99,7 +99,7 @@ export const assetsServer = new Elysia({
+@@ -99,7 +100,8 @@ export const assetsServer = new Elysia({
    })
    .get("/floating.js", async ({ set }) => {
      set.headers["Content-Type"] = "text/javascript";
 -    const content = await db.get("asset:floating.js");
++    set.headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
 +    const content = await Bun.file("/usr/src/app/assets/floating.js").text();
      if (!content) {
        set.status = 503;
