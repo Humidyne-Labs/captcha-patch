@@ -98,15 +98,45 @@ If anything fails and you are sure it's Cap's issue:
                 <option value="nordicFrost">Nordic Frost</option>
                 <option value="synthwave">Synthwave Outrun</option>
                 <option value="solarizedLight">Solarized Light</option>
+                <option value="solarizedDark">Solarized Dark</option>
                 <option value="gruvboxDark">Gruvbox Dark</option>
+                <option value="gruvboxLight">Gruvbox Light</option>
                 <option value="retroConsole">Retro Console</option>
                 <option value="oceanicDeep">Oceanic Deep</option>
                 <option value="rosePine">Rose Pine</option>
+                <option value="rosePineDawn">Rose Pine Dawn</option>
+                <option value="rosePineMoon">Rose Pine Moon</option>
                 <option value="minimalStark">Minimal Stark</option>
                 <option value="coffeeGrind">Coffee Grind</option>
                 <option value="royalVelvet">Royal Velvet</option>
                 <option value="tokyoNight">Tokyo Night</option>
                 <option value="crimsonRust">Crimson Rust</option>
+                <option value="catppuccinMocha">Catppuccin Mocha</option>
+                <option value="catppuccinLatte">Catppuccin Latte</option>
+                <option value="catppuccinMacchiato">Catppuccin Macchiato</option>
+                <option value="catppuccinFrappe">Catppuccin Frappé</option>
+                <option value="monokaiPro">Monokai Pro</option>
+                <option value="oneDarkPro">One Dark Pro</option>
+                <option value="nordicNight">Nordic Night</option>
+                <option value="kanagawaDragon">Kanagawa Dragon</option>
+                <option value="kanagawaWave">Kanagawa Wave</option>
+                <option value="everforestDark">Everforest Dark</option>
+                <option value="everforestLight">Everforest Light</option>
+                <option value="materialOcean">Material Ocean</option>
+                <option value="nightOwl">Night Owl</option>
+                <option value="palenight">Palenight</option>
+                <option value="cobalt2">Cobalt 2</option>
+                <option value="andromeda">Andromeda</option>
+                <option value="shadesOfPurple">Shades of Purple</option>
+                <option value="horizonDark">Horizon Dark</option>
+                <option value="cyberneticGold">Cybernetic Gold</option>
+                <option value="midnightEmerald">Midnight Emerald</option>
+                <option value="matchaLatte">Matcha Latte</option>
+                <option value="sunsetGlow">Sunset Glow</option>
+                <option value="matrixCyber">Matrix Cyber</option>
+                <option value="lavenderMist">Lavender Mist</option>
+                <option value="oxfordNavy">Oxford Navy</option>
+                <option value="cherryBlossom">Cherry Blossom</option>
                 <option value="custom">Custom Colorway</option>
               </select>
             </div>
@@ -153,6 +183,17 @@ If anything fails and you are sure it's Cap's issue:
               <div class="theme-field-range">
                 <label>Widget Width (<span id="themeWidthVal">260px</span>)</label>
                 <input type="range" id="themeWidth" min="200" max="400" value="260" step="5">
+              </div>
+            </div>
+
+            <div class="theme-controls-row">
+              <div class="theme-field-range">
+                <label>Widget Height (<span id="themeHeightVal">54px</span>)</label>
+                <input type="range" id="themeHeight" min="40" max="75" value="54" step="1">
+              </div>
+              <div class="theme-field-range">
+                <label>Checkbox Size (<span id="themeCheckboxSizeVal">25px</span>)</label>
+                <input type="range" id="themeCheckboxSize" min="16" max="32" value="25" step="1">
               </div>
             </div>
 
@@ -273,27 +314,62 @@ function wireThemeWizard(root, key) {
   if (!presetSelect) return;
 
   const presets = {
-    light: { bg: "#fdfdfd", color: "#212121", border: "#dddddd", focus: "#0066cc", radius: "14", width: "260" },
-    dark: { bg: "#1a1a1a", color: "#f7fafc", border: "#333333", focus: "#3182ce", radius: "14", width: "260" },
-    warmAmber: { bg: "#fffbeb", color: "#78350f", border: "#fef3c7", focus: "#d97706", radius: "10", width: "260" },
-    emerald: { bg: "#f0fdf4", color: "#14532d", border: "#dcfce7", focus: "#16a34a", radius: "16", width: "280" },
-    cyberpunk: { bg: "#0d0e15", color: "#00ffcc", border: "#ff007f", focus: "#00ffcc", radius: "0", width: "300" },
-    stealth: { bg: "#0f172a", color: "#94a3b8", border: "#1e293b", focus: "#38bdf8", radius: "8", width: "250" },
-    midnightAmethyst: { bg: "#0a0518", color: "#c084fc", border: "#241242", focus: "#a855f7", radius: "12", width: "270" },
-    dracula: { bg: "#282a36", color: "#f8f8f2", border: "#44475a", focus: "#bd93f9", radius: "8", width: "265" },
-    nordicFrost: { bg: "#f8fafc", color: "#334155", border: "#e2e8f0", focus: "#0284c7", radius: "10", width: "260" },
-    synthwave: { bg: "#1a0826", color: "#f472b6", border: "#f43f5e", focus: "#f43f5e", radius: "4", width: "290" },
-    solarizedLight: { bg: "#fdf6e3", color: "#586e75", border: "#eee8d5", focus: "#268bd2", radius: "12", width: "260" },
-    gruvboxDark: { bg: "#282828", color: "#ebdbb2", border: "#3c3836", focus: "#fe8019", radius: "6", width: "270" },
-    retroConsole: { bg: "#000000", color: "#33ff33", border: "#33ff33", focus: "#33ff33", radius: "0", width: "280" },
-    oceanicDeep: { bg: "#04151f", color: "#2ec4b6", border: "#113f59", focus: "#2ec4b6", radius: "14", width: "260" },
-    rosePine: { bg: "#191724", color: "#e0def4", border: "#26233a", focus: "#ebbcac", radius: "8", width: "260" },
-    minimalStark: { bg: "#ffffff", color: "#111111", border: "#111111", focus: "#111111", radius: "0", width: "250" },
-    coffeeGrind: { bg: "#2b1e17", color: "#d4bda8", border: "#4a3525", focus: "#8c6239", radius: "10", width: "260" },
-    royalVelvet: { bg: "#0a1128", color: "#e2e8f0", border: "#1c2541", focus: "#cca43b", radius: "16", width: "275" },
-    tokyoNight: { bg: "#1a1b26", color: "#a9b1d6", border: "#24283b", focus: "#7aa2f7", radius: "8", width: "260" },
-    crimsonRust: { bg: "#1c0d0d", color: "#ff6b6b", border: "#3d1c1c", focus: "#e63946", radius: "12", width: "265" }
+    light: { bg: "#fdfdfd", color: "#212121", border: "#dddddd", focus: "#0066cc", radius: "14", width: "260", height: "54", checkboxSize: "25" },
+    dark: { bg: "#1a1a1a", color: "#f7fafc", border: "#333333", focus: "#3182ce", radius: "14", width: "260", height: "54", checkboxSize: "25" },
+    warmAmber: { bg: "#fffbeb", color: "#78350f", border: "#fef3c7", focus: "#d97706", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    emerald: { bg: "#f0fdf4", color: "#14532d", border: "#dcfce7", focus: "#16a34a", radius: "16", width: "280", height: "54", checkboxSize: "25" },
+    cyberpunk: { bg: "#0d0e15", color: "#00ffcc", border: "#ff007f", focus: "#00ffcc", radius: "0", width: "300", height: "54", checkboxSize: "24" },
+    stealth: { bg: "#0f172a", color: "#94a3b8", border: "#1e293b", focus: "#38bdf8", radius: "8", width: "250", height: "50", checkboxSize: "24" },
+    midnightAmethyst: { bg: "#0a0518", color: "#c084fc", border: "#241242", focus: "#a855f7", radius: "12", width: "270", height: "54", checkboxSize: "25" },
+    dracula: { bg: "#282a36", color: "#f8f8f2", border: "#44475a", focus: "#bd93f9", radius: "8", width: "265", height: "54", checkboxSize: "25" },
+    nordicFrost: { bg: "#f8fafc", color: "#334155", border: "#e2e8f0", focus: "#0284c7", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    synthwave: { bg: "#1a0826", color: "#f472b6", border: "#f43f5e", focus: "#f43f5e", radius: "4", width: "290", height: "54", checkboxSize: "25" },
+    solarizedLight: { bg: "#fdf6e3", color: "#586e75", border: "#eee8d5", focus: "#268bd2", radius: "12", width: "260", height: "54", checkboxSize: "25" },
+    solarizedDark: { bg: "#002b36", color: "#839496", border: "#073642", focus: "#268bd2", radius: "12", width: "260", height: "54", checkboxSize: "25" },
+    gruvboxDark: { bg: "#282828", color: "#ebdbb2", border: "#3c3836", focus: "#fe8019", radius: "6", width: "270", height: "54", checkboxSize: "25" },
+    gruvboxLight: { bg: "#fbf1c7", color: "#3c3836", border: "#ebdbb2", focus: "#b57614", radius: "6", width: "270", height: "54", checkboxSize: "25" },
+    retroConsole: { bg: "#000000", color: "#33ff33", border: "#33ff33", focus: "#33ff33", radius: "0", width: "280", height: "52", checkboxSize: "24" },
+    oceanicDeep: { bg: "#04151f", color: "#2ec4b6", border: "#113f59", focus: "#2ec4b6", radius: "14", width: "260", height: "54", checkboxSize: "25" },
+    rosePine: { bg: "#191724", color: "#e0def4", border: "#26233a", focus: "#ebbcac", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    rosePineDawn: { bg: "#faf4ed", color: "#575279", border: "#f2e9e1", focus: "#d7827e", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    rosePineMoon: { bg: "#232136", color: "#e0def4", border: "#393552", focus: "#c4a7e7", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    minimalStark: { bg: "#ffffff", color: "#111111", border: "#111111", focus: "#111111", radius: "0", width: "250", height: "50", checkboxSize: "24" },
+    coffeeGrind: { bg: "#2b1e17", color: "#d4bda8", border: "#4a3525", focus: "#8c6239", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    royalVelvet: { bg: "#0a1128", color: "#e2e8f0", border: "#1c2541", focus: "#cca43b", radius: "16", width: "275", height: "54", checkboxSize: "25" },
+    tokyoNight: { bg: "#1a1b26", color: "#a9b1d6", border: "#24283b", focus: "#7aa2f7", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    crimsonRust: { bg: "#1c0d0d", color: "#ff6b6b", border: "#3d1c1c", focus: "#e63946", radius: "12", width: "265", height: "54", checkboxSize: "25" },
+    catppuccinMocha: { bg: "#1e1e2e", color: "#cdd6f4", border: "#313244", focus: "#cba6f7", radius: "12", width: "260", height: "54", checkboxSize: "25" },
+    catppuccinLatte: { bg: "#eff1f5", color: "#4c4f69", border: "#e6e9ef", focus: "#8839ef", radius: "12", width: "260", height: "54", checkboxSize: "25" },
+    catppuccinMacchiato: { bg: "#24273a", color: "#cad3f5", border: "#363a4f", focus: "#f5a97f", radius: "12", width: "260", height: "54", checkboxSize: "25" },
+    catppuccinFrappe: { bg: "#303446", color: "#c6d0f5", border: "#414559", focus: "#ca9ee6", radius: "12", width: "260", height: "54", checkboxSize: "25" },
+    monokaiPro: { bg: "#2d2a2e", color: "#fcfcfa", border: "#403e41", focus: "#ffd866", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    oneDarkPro: { bg: "#282c34", color: "#abb2bf", border: "#3e4451", focus: "#61afef", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    nordicNight: { bg: "#2e3440", color: "#eceff4", border: "#4c566a", focus: "#88c0d0", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    kanagawaDragon: { bg: "#181616", color: "#c5c9c5", border: "#282727", focus: "#e6c384", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    kanagawaWave: { bg: "#1f1f28", color: "#dcd7ba", border: "#2a2a37", focus: "#7e9cd8", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    everforestDark: { bg: "#2d353b", color: "#d3c6aa", border: "#3d484f", focus: "#a7c080", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    everforestLight: { bg: "#fdf6e3", color: "#5c6a72", border: "#f4f0d9", focus: "#8da101", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    materialOcean: { bg: "#0f111a", color: "#8f93a2", border: "#1f2233", focus: "#80cbd0", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    nightOwl: { bg: "#011627", color: "#d6deeb", border: "#0b2942", focus: "#82aaff", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    palenight: { bg: "#292d3e", color: "#a6accd", border: "#3a3f58", focus: "#c792ea", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    cobalt2: { bg: "#193549", color: "#e1efef", border: "#152c3e", focus: "#ffc600", radius: "10", width: "265", height: "54", checkboxSize: "25" },
+    andromeda: { bg: "#262a33", color: "#d5dec1", border: "#323846", focus: "#00e676", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    shadesOfPurple: { bg: "#2d2b55", color: "#ffffff", border: "#1e1e3f", focus: "#fad000", radius: "12", width: "260", height: "54", checkboxSize: "25" },
+    horizonDark: { bg: "#1c1e26", color: "#d5d8da", border: "#2e303e", focus: "#e95678", radius: "8", width: "260", height: "54", checkboxSize: "25" },
+    cyberneticGold: { bg: "#121212", color: "#e5c07b", border: "#282828", focus: "#d19a66", radius: "4", width: "270", height: "52", checkboxSize: "24" },
+    midnightEmerald: { bg: "#061a14", color: "#a7f3d0", border: "#0e382c", focus: "#10b981", radius: "14", width: "265", height: "54", checkboxSize: "25" },
+    matchaLatte: { bg: "#f0fdf4", color: "#166534", border: "#bbf7d0", focus: "#22c55e", radius: "14", width: "260", height: "54", checkboxSize: "25" },
+    sunsetGlow: { bg: "#1a0f1d", color: "#f472b6", border: "#3b0764", focus: "#f97316", radius: "12", width: "270", height: "54", checkboxSize: "25" },
+    matrixCyber: { bg: "#050d08", color: "#22c55e", border: "#14532d", focus: "#4ade80", radius: "2", width: "280", height: "52", checkboxSize: "24" },
+    lavenderMist: { bg: "#faf5ff", color: "#6b21a8", border: "#e9d5ff", focus: "#a855f7", radius: "16", width: "260", height: "54", checkboxSize: "25" },
+    oxfordNavy: { bg: "#0f172a", color: "#e2e8f0", border: "#1e293b", focus: "#38bdf8", radius: "10", width: "260", height: "54", checkboxSize: "25" },
+    cherryBlossom: { bg: "#fff5f7", color: "#9d174d", border: "#fbcfe8", focus: "#ec4899", radius: "14", width: "260", height: "54", checkboxSize: "25" }
   };
+
+  const heightInput = root.querySelector("#themeHeight");
+  const heightVal = root.querySelector("#themeHeightVal");
+  const checkboxSizeInput = root.querySelector("#themeCheckboxSize");
+  const checkboxSizeVal = root.querySelector("#themeCheckboxSizeVal");
 
   function updatePreviewAndCode() {
     const bg = bgInput.value;
@@ -302,9 +378,13 @@ function wireThemeWizard(root, key) {
     const focus = focusInput.value;
     const radius = radiusInput.value + "px";
     const width = widthInput.value + "px";
+    const height = heightInput ? heightInput.value + "px" : "54px";
+    const checkboxSize = checkboxSizeInput ? checkboxSizeInput.value + "px" : "25px";
 
     radiusVal.textContent = radius;
     widthVal.textContent = width;
+    if (heightVal && heightInput) heightVal.textContent = height;
+    if (checkboxSizeVal && checkboxSizeInput) checkboxSizeVal.textContent = checkboxSize;
 
     const widgetEl = previewBox.querySelector("cap-widget");
     if (widgetEl) {
@@ -314,11 +394,13 @@ function wireThemeWizard(root, key) {
       widgetEl.style.setProperty("--cap-focus-ring", focus);
       widgetEl.style.setProperty("--cap-border-radius", radius);
       widgetEl.style.setProperty("--cap-widget-width", width);
+      widgetEl.style.setProperty("--cap-widget-height", height);
+      widgetEl.style.setProperty("--cap-checkbox-size", checkboxSize);
     }
 
     const origin = location.origin;
     const endpoint = \`\${origin}/\${key.siteKey}/\`;
-    const styleAttr = \`style="--cap-background: \${bg}; --cap-color: \${color}; --cap-border-color: \${border}; --cap-focus-ring: \${focus}; --cap-border-radius: \${radius}; --cap-widget-width: \${width};"\`;
+    const styleAttr = \`style="--cap-background: \${bg}; --cap-color: \${color}; --cap-border-color: \${border}; --cap-focus-ring: \${focus}; --cap-border-radius: \${radius}; --cap-widget-width: \${width}; --cap-widget-height: \${height}; --cap-checkbox-size: \${checkboxSize};"\`;
     
     const widgetSnippet = \`<script src="\${origin}/assets/widget.js"></script>\\n<cap-widget data-cap-api-endpoint="\${endpoint}"\\n  \${styleAttr}>\\n</cap-widget>\`;
 
@@ -357,6 +439,19 @@ function wireThemeWizard(root, key) {
     updatePreviewAndCode();
   });
 
+  if (heightInput) {
+    heightInput.addEventListener("input", () => {
+      presetSelect.value = "custom";
+      updatePreviewAndCode();
+    });
+  }
+  if (checkboxSizeInput) {
+    checkboxSizeInput.addEventListener("input", () => {
+      presetSelect.value = "custom";
+      updatePreviewAndCode();
+    });
+  }
+
   if (textIdleInput) {
     textIdleInput.addEventListener("input", updatePreviewAndCode);
     textVerifyingInput.addEventListener("input", updatePreviewAndCode);
@@ -377,6 +472,8 @@ function wireThemeWizard(root, key) {
       focusText.value = p.focus.toUpperCase();
       radiusInput.value = p.radius;
       widthInput.value = p.width;
+      if (heightInput) heightInput.value = p.height || "54";
+      if (checkboxSizeInput) checkboxSizeInput.value = p.checkboxSize || "25";
       updatePreviewAndCode();
     }
   });
@@ -409,6 +506,8 @@ function wireThemeWizard(root, key) {
           focus: focusInput.value,
           radius: radiusInput.value + "px",
           width: widthInput.value + "px",
+          height: heightInput ? heightInput.value + "px" : "54px",
+          checkboxSize: checkboxSizeInput ? checkboxSizeInput.value + "px" : "25px",
           textIdle: textIdleInput ? textIdleInput.value : "Verify with Cap",
           textVerifying: textVerifyingInput ? textVerifyingInput.value : "Solving Proof-of-Work...",
           textDone: textDoneInput ? textDoneInput.value : "Verification Complete",
@@ -502,11 +601,11 @@ function wireThemeWizard(root, key) {
   })
   .post("/recompile-widget", async ({ body, set }) => {
     try {
-      const { bg, color, border, focus, radius, width, textIdle, textVerifying, textDone, textError } = body;
+      const { bg, color, border, focus, radius, width, height, checkboxSize, textIdle, textVerifying, textDone, textError } = body;
       const templateCss = await Bun.file("/usr/src/app/assets/cap.css.template").text();
 
       // Prepend host-level CSS custom property definitions
-      const hostCss = \`:host{--cap-background:\${bg};--cap-color:\${color};--cap-border-color:\${border};--cap-focus-ring:\${focus};--cap-border-radius:\${radius};--cap-widget-width:\${width};}\`;
+      const hostCss = \`:host{--cap-background:\${bg};--cap-color:\${color};--cap-border-color:\${border};--cap-focus-ring:\${focus};--cap-border-radius:\${radius};--cap-widget-width:\${width};--cap-widget-height:\${height || "54px"};--cap-checkbox-size:\${checkboxSize || "25px"};}\`;
 
       // Replace var(--cap-xxx, default) fallbacks throughout the stylesheet
       let newCss = hostCss + templateCss
@@ -515,7 +614,9 @@ function wireThemeWizard(root, key) {
         .replace(/var\(--cap-border-color\\s*,\\s*[^)]+\)/g, \`var(--cap-border-color, \${border})\`)
         .replace(/var\(--cap-focus-ring\\s*,\\s*[^)]+\)/g, \`var(--cap-focus-ring, \${focus})\`)
         .replace(/var\(--cap-border-radius\\s*,\\s*[^)]+\)/g, \`var(--cap-border-radius, \${radius})\`)
-        .replace(/var\(--cap-widget-width\\s*,\\s*[^)]+\)/g, \`var(--cap-widget-width, \${width})\`);
+        .replace(/var\(--cap-widget-width\\s*,\\s*[^)]+\)/g, \`var(--cap-widget-width, \${width})\`)
+        .replace(/var\(--cap-widget-height\\s*,\\s*[^)]+\)/g, \`var(--cap-widget-height, \${height || "54px"})\`)
+        .replace(/var\(--cap-checkbox-size\\s*,\\s*[^)]+\)/g, \`var(--cap-checkbox-size, \${checkboxSize || "25px"})\`);
 
       const templateJs = await Bun.file("/usr/src/app/assets/widget.template.js").text();
       const minifiedCss = newCss
@@ -628,18 +729,37 @@ function wireThemeWizard(root, key) {
   color: var(--text-muted, var(--text-secondary, #a0aec0));
 }
 .theme-select {
-  padding: 8px 12px;
+  padding: 8px 32px 8px 12px;
   border-radius: 6px;
   border: 1px solid var(--border-color, var(--border, rgba(255, 255, 255, 0.15)));
-  background: var(--input-bg, var(--bg-input, rgba(0, 0, 0, 0.2)));
-  color: var(--text-color, var(--text-primary, inherit));
+  background-color: #1e293b;
+  color: #f8fafc;
   font-size: 13px;
   outline: none;
   width: 100%;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+.theme-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 .theme-select option {
-  background: #1e293b;
+  background-color: #0f172a;
   color: #f8fafc;
+  padding: 8px 12px;
+}
+.theme-select option:checked,
+.theme-select option:hover,
+.theme-select option:focus {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
 }
 .color-picker-wrapper {
   display: flex;
