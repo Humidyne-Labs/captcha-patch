@@ -75,7 +75,8 @@ console.log("Custom Cap widget compiled successfully!"); \
 # ------------------------------------------------------------------------------
 # Stage 2: Layer the compiled assets onto the matching version of official Cap
 # ------------------------------------------------------------------------------
-FROM tiago2/cap:standalone@${CAP_VERSION}
+ARG CAP_VERSION
+FROM tiago2/cap:${CAP_VERSION}
 USER root
 
 # 1. Copy the compiled custom widget into the Cap container assets directory
