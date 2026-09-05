@@ -409,14 +409,14 @@ function wireThemeWizard(root, key) {
           textError: textErrorInput ? textErrorInput.value : "Failed to verify"
         };
 
-        let res = await fetch("/recompile-widget", {
+        let res = await fetch("/assets/recompile-widget", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
 
-        if (res.status === 404) {
-          res = await fetch("/assets/recompile-widget", {
+        if (!res.ok && res.status === 404) {
+          res = await fetch("/recompile-widget", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
