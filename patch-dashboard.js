@@ -632,12 +632,12 @@ function wireThemeWizard(root, key) {
     }
 
     const origin = location.origin;
-    const endpoint = "\${origin}/\${key.siteKey}/";
-    const styleAttr = "style=\"--cap-background: \${bg}; --cap-color: \${color}; --cap-border-color: \${border}; --cap-focus-ring: \${focus}; --cap-border-radius: \${radius}; --cap-widget-width: \${width}; --cap-widget-height: \${height}; --cap-widget-padding: \${padding}; --cap-gap: \${gap}; --cap-font: \${font}; --cap-checkbox-size: \${checkboxSize}; --cap-checkbox-border: \${checkboxBorder}; --cap-checkbox-border-radius: \${checkboxRadius}; --cap-checkbox-background: \${checkboxBg}; --cap-checkbox-margin: \${checkboxMargin}; --cap-spinner-color: \${spinnerColor}; --cap-spinner-background-color: \${spinnerBg}; --cap-spinner-thickness: \${spinnerThickness};\"";
+    const endpoint = origin + "/" + key.siteKey + "/";
+    const styleAttr = 'style="--cap-background: ' + bg + '; --cap-color: ' + color + '; --cap-border-color: ' + border + '; --cap-focus-ring: ' + focus + '; --cap-border-radius: ' + radius + '; --cap-widget-width: ' + width + '; --cap-widget-height: ' + height + '; --cap-widget-padding: ' + padding + '; --cap-gap: ' + gap + '; --cap-font: ' + font + '; --cap-checkbox-size: ' + checkboxSize + '; --cap-checkbox-border: ' + checkboxBorder + '; --cap-checkbox-border-radius: ' + checkboxRadius + '; --cap-checkbox-background: ' + checkboxBg + '; --cap-checkbox-margin: ' + checkboxMargin + '; --cap-spinner-color: ' + spinnerColor + '; --cap-spinner-background-color: ' + spinnerBg + '; --cap-spinner-thickness: ' + spinnerThickness + ';"';
     
-    const i18nAttrs = "data-cap-i18n-initial-state=\"\${textIdle}\"\n  data-cap-i18n-verifying-label=\"\${textVerifying}\"\n  data-cap-i18n-solved-label=\"\${textDone}\"\n  data-cap-i18n-error-label=\"\${textError}\"\n  data-cap-i18n-troubleshooting-label=\"\${textTroubleshooting}\"\n  data-cap-i18n-wasm-disabled=\"\${textWasmDisabled}\"\n  data-cap-i18n-required-label=\"\${textRequired}\"\n  data-cap-i18n-verify-aria-label=\"\${ariaVerify}\"\n  data-cap-i18n-verifying-aria-label=\"\${ariaVerifying}\"\n  data-cap-i18n-verified-aria-label=\"\${ariaVerified}\"\n  data-cap-i18n-error-aria-label=\"\${ariaError}\"";
+    const i18nAttrs = 'data-cap-i18n-initial-state="' + textIdle + '"\n  data-cap-i18n-verifying-label="' + textVerifying + '"\n  data-cap-i18n-solved-label="' + textDone + '"\n  data-cap-i18n-error-label="' + textError + '"\n  data-cap-i18n-troubleshooting-label="' + textTroubleshooting + '"\n  data-cap-i18n-wasm-disabled="' + textWasmDisabled + '"\n  data-cap-i18n-required-label="' + textRequired + '"\n  data-cap-i18n-verify-aria-label="' + ariaVerify + '"\n  data-cap-i18n-verifying-aria-label="' + ariaVerifying + '"\n  data-cap-i18n-verified-aria-label="' + ariaVerified + '"\n  data-cap-i18n-error-aria-label="' + ariaError + '"';
     
-    const widgetSnippet = "<script src=\"\${origin}/assets/widget.js\"></script>\n<cap-widget data-cap-api-endpoint=\"\${endpoint}\"\n  " + i18nAttrs + "\n  " + styleAttr + ">\n</cap-widget>";
+    const widgetSnippet = '<script src="' + origin + '/assets/widget.js"></script>\n<cap-widget data-cap-api-endpoint="' + endpoint + '"\n  ' + i18nAttrs + '\n  ' + styleAttr + '>\n</cap-widget>';
 
     snippetCode.innerHTML = highlight(widgetSnippet);
     snippetBlock.dataset.raw = widgetSnippet;

@@ -19,30 +19,118 @@ This patch introduces a **Container-Level Recompilation Engine** that surgically
 
 ## ✨ Features
 
-- **🎨 Dynamic Theme Wizard**: Integrated seamlessly into the Cap dashboard to visually edit background colors, text colors, focus rings, borders, radiuses, and widths.
-- **📝 Live Text Customization**: Customize the 4 core CAPTCHA state labels (Idle, Verifying, Success, Error) on-the-fly to match your voice or language.
+- **🎨 Dynamic Theme Wizard**: Integrated seamlessly into the Cap dashboard with a clean **4-Tab Navigation System** (**Colors & Layout**, **Checkbox & Spinner**, **i18n Labels**, **ARIA / Accessibility**).
+- **🌈 50 Premium Theme Presets**: From Catppuccin and Solarized to Kanagawa, Dracula, Gruvbox, Tokyo Night, Everforest, and Cyberpunk.
+- **🎨 18 Configurable CSS Custom Properties**:
+  - `--cap-background` (Background color)
+  - `--cap-color` (Text / foreground color)
+  - `--cap-border-color` (Widget border color)
+  - `--cap-focus-ring` (Focus ring outline color)
+  - `--cap-border-radius` (Corner radius: 0px – 28px)
+  - `--cap-widget-width` (Widget width: 180px – 420px)
+  - `--cap-widget-height` (Widget height: 30px – 80px)
+  - `--cap-widget-padding` (Widget padding: 0px – 30px)
+  - `--cap-gap` (Gap between checkbox & label: 0px – 30px)
+  - `--cap-font` (Font family stack)
+  - `--cap-checkbox-size` (Checkbox box size: 16px – 36px)
+  - `--cap-checkbox-border-radius` (Checkbox corner radius: 0px – 16px)
+  - `--cap-checkbox-margin` (Checkbox outer margin: 0px – 12px)
+  - `--cap-checkbox-border` (Checkbox border style)
+  - `--cap-checkbox-background` (Checkbox unchecked background)
+  - `--cap-spinner-color` (Spinner active bar color)
+  - `--cap-spinner-background-color` (Spinner track color)
+  - `--cap-spinner-thickness` (Spinner stroke thickness: 1px – 10px)
+- **📝 11 Custom i18n & ARIA Attributes**:
+  - `data-cap-i18n-initial-state` (Initial idle text label)
+  - `data-cap-i18n-verifying-label` (PoW solving in-progress label)
+  - `data-cap-i18n-solved-label` (Verification success label)
+  - `data-cap-i18n-error-label` (Verification error label)
+  - `data-cap-i18n-troubleshooting-label` (Troubleshooting link text)
+  - `data-cap-i18n-wasm-disabled` (WASM disabled warning label)
+  - `data-cap-i18n-required-label` (Form validation required notice)
+  - `data-cap-i18n-verify-aria-label` (ARIA button description)
+  - `data-cap-i18n-verifying-aria-label` (ARIA verifying announcement)
+  - `data-cap-i18n-verified-aria-label` (ARIA success announcement)
+  - `data-cap-i18n-error-aria-label` (ARIA error announcement)
 - **⚙️ Elysia Server-Side Recompilation Engine**: A custom `/recompile-widget` route executes real-time template replacement and instant asset compilation inside the running container.
-- **🌈 20 Premium Theme Presets**:
-  1. **Default Light** — Clean and crisp standard styling.
-  2. **Classic Dark** — Refined midnight palette.
-  3. **Warm Amber** — Cozy warm sepia.
-  4. **Emerald Forest** — Botanical green highlights.
-  5. **Cyberpunk Neon** — High-energy stark magenta and cyan.
-  6. **Stealth Slate** — Low-profile slate grey and blue.
-  7. **Midnight Amethyst** — Deep luxurious cosmic purple.
-  8. **Dracula Dark** — The classic programmer's favorite.
-  9. **Nordic Frost** — Polar light grey with sharp icy-blue highlights.
-  10. **Synthwave Outrun** — 80s grid aesthetic with vibrant rose accents.
-  11. **Solarized Light** — Eye-friendly paper-colored vintage contrast.
-  12. **Gruvbox Dark** — Warm retro-terminal palette.
-  13. **Retro Console** — Monochrome green-phosphor console styling.
-  14. **Oceanic Deep** — Submarine deep dark blue and aquamarine.
-  15. **Rose Pine** — Desaturated earthy rose and pine needles.
-  16. **Minimal Stark** — High-contrast premium black and white borders.
-  17. **Coffee Grind** — Deep roasted espresso and cream accents.
-  18. **Royal Velvet** — Regal navy canvas with rich gold outlines.
-  19. **Tokyo Night** — Slick neon blue and dark slate shadows.
-  20. **Crimson Rust** — Industrial brick-red elements.
+
+---
+
+## 🎨 50 Included Theme Presets
+
+1. **Default Light** — Clean and crisp standard light styling.
+2. **Classic Dark** — Refined midnight palette.
+3. **Warm Amber** — Cozy sepia and honey tones.
+4. **Emerald Forest** — Botanical green highlights.
+5. **Cyberpunk Neon** — High-energy stark magenta and cyan.
+6. **Stealth Slate** — Low-profile slate grey and blue.
+7. **Midnight Amethyst** — Deep luxurious cosmic purple.
+8. **Dracula Dark** — The classic programmer's dark palette.
+9. **Nordic Frost** — Polar light grey with sharp icy-blue highlights.
+10. **Synthwave Outrun** — 80s grid aesthetic with vibrant rose accents.
+11. **Solarized Light** — Eye-friendly paper-colored vintage contrast.
+12. **Solarized Dark** — Deep teal-slate Solarized dark theme.
+13. **Gruvbox Dark** — Warm retro-terminal palette.
+14. **Gruvbox Light** — Creamy parchment retro terminal contrast.
+15. **Retro Console** — Monochrome green-phosphor console styling.
+16. **Oceanic Deep** — Submarine deep dark blue and aquamarine.
+17. **Rose Pine** — Desaturated earthy rose and pine needles.
+18. **Rose Pine Dawn** — Warm muted blush and pastel dawn tones.
+19. **Rose Pine Moon** — Deep indigo night atmosphere.
+20. **Minimal Stark** — High-contrast black and white borders.
+21. **Coffee Grind** — Deep roasted espresso and cream accents.
+22. **Royal Velvet** — Regal navy canvas with rich gold outlines.
+23. **Tokyo Night** — Slick neon blue and dark slate shadows.
+24. **Crimson Rust** — Industrial brick-red elements.
+25. **Catppuccin Mocha** — Deep soothing pastel dark.
+26. **Catppuccin Latte** — Soothing light pastel canvas.
+27. **Catppuccin Macchiato** — Warm dark pastel grey.
+28. **Catppuccin Frappé** — Soft dark pastel grey.
+29. **Monokai Pro** — Vibrant yellow, cyan, and charcoal.
+30. **One Dark Pro** — Iconic Atom dark editor theme.
+31. **Nordic Night** — Dark arctic ice and slate.
+32. **Kanagawa Dragon** — Dark Japanese ink & gold theme.
+33. **Kanagawa Wave** — Classic Kanagawa ocean blue and parchment.
+34. **Everforest Dark** — Comfortable green forest dark palette.
+35. **Everforest Light** — Soft warm natural green light theme.
+36. **Material Ocean** — Deep ocean cyan & navy.
+37. **Night Owl** — Deep navy blue designed for night coding.
+38. **Palenight** — Soothing purple-grey dark palette.
+39. **Cobalt 2** — High-contrast blue and bright yellow.
+40. **Andromeda** — Deep space dark with vivid green highlights.
+41. **Shades of Purple** — Bold purple background with yellow controls.
+42. **Horizon Dark** — Warm sunset orange & deep indigo.
+43. **Cybernetic Gold** — Dark metallic gold & obsidian.
+44. **Midnight Emerald** — Dark jewel green & mint accents.
+45. **Matcha Latte** — Soothing matcha tea light theme.
+46. **Sunset Glow** — Deep plum & sunset orange glow.
+47. **Matrix Cyber** — Minimalist matrix green on black.
+48. **Lavender Mist** — Soft pastel purple & lavender.
+49. **Oxford Navy** — Classic academic navy & ice blue.
+50. **Cherry Blossom** — Soft pink & magenta blossom theme.
+
+---
+
+## 📋 Full HTML Widget Snippet Reference
+
+```html
+<script src="https://<your-instance>/assets/widget.js"></script>
+<cap-widget 
+  data-cap-api-endpoint="https://<your-instance>/<site-key>/"
+  data-cap-i18n-initial-state="Verify you're human"
+  data-cap-i18n-verifying-label="Verifying..."
+  data-cap-i18n-solved-label="You're human"
+  data-cap-i18n-error-label="Error"
+  data-cap-i18n-troubleshooting-label="Troubleshooting"
+  data-cap-i18n-wasm-disabled="Enable WASM for significantly faster solving"
+  data-cap-i18n-required-label="Please verify you're human"
+  data-cap-i18n-verify-aria-label="Click to verify you're a human"
+  data-cap-i18n-verifying-aria-label="Verifying, please wait"
+  data-cap-i18n-verified-aria-label="Verified"
+  data-cap-i18n-error-aria-label="An error occurred, please try again"
+  style="--cap-background: #fdfdfd; --cap-color: #212121; --cap-border-color: #dddddd8f; --cap-border-radius: 14px; --cap-widget-width: 230px; --cap-widget-height: 30px; --cap-widget-padding: 14px; --cap-gap: 15px; --cap-font: system-ui, -apple-system, sans-serif; --cap-checkbox-size: 25px; --cap-checkbox-border: 1px solid #aaaaaad1; --cap-checkbox-border-radius: 6px; --cap-checkbox-background: #fafafa91; --cap-checkbox-margin: 2px; --cap-spinner-color: #000; --cap-spinner-background-color: #eee; --cap-spinner-thickness: 5px;"
+></cap-widget>
+```
 
 ---
 
