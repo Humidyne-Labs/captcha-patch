@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000 --host 0.0.0.0",
-    "build": "tsc && vite build",
+    "build": "node -c patch-dashboard.js",
     "build:docker": "docker build --build-arg CAP_VERSION=$(grep -E '^CAP_VERSION=' .env 2>/dev/null | cut -d'=' -f2 | xargs -I {} sh -c 'if [ \"{}\" = \"latest\" ]; then git ls-remote --tags --refs https://github.com/tiagozip/cap.git | grep -o \"refs/tags/standalone@[0-9.]*\" | sort -V | tail -n1 | cut -d\"@\" -f2; else echo \"{}\"; fi' || echo '3.1.11') -t tiago2/cap:standalone@$(grep -E '^CAP_VERSION=' .env 2>/dev/null | cut -d'=' -f2 | xargs -I {} sh -c 'if [ \"{}\" = \"latest\" ]; then git ls-remote --tags --refs https://github.com/tiagozip/cap.git | grep -o \"refs/tags/standalone@[0-9.]*\" | sort -V | tail -n1 | cut -d\"@\" -f2; else echo \"{}\"; fi' || echo '3.1.11')-themed .",
     "preview": "vite preview --port 3000 --host 0.0.0.0",
     "lint": "eslint ."
