@@ -27,9 +27,8 @@ RUN patch -p1 < standalone-assets.patch
 COPY patch-dashboard.js ./
 RUN bun run patch-dashboard.js .
 
-# 4. Enter widget directory and swap default CSS with our theme.css
+# 4. Enter widget directory
 WORKDIR /build/widget
-COPY theme.css src/src/cap.css
 
 # 5. Install build dependencies (lightningcss, terser)
 RUN bun install
