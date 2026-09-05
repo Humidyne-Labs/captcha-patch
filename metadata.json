@@ -1,0 +1,8 @@
+{
+  "name": "CAPTCHA Theme Studio",
+  "description": "An interactive studio and playground for customizing, testing, and generating themes for the Cap CAPTCHA widget.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

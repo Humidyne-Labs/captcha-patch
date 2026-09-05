@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build & Output directories
+dist/
+dist-ssr/
+build/
+*.local
+
+# Environment variables
+.env
+.env.production
+.env.staging
+!.env.example
+
+# Logs and debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# System & OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# AI Studio / IDE artifacts
+.aistudio/
+.vscode/
+.idea/
+
+# Optional: If maintaining a strict patch-only repository without local preview UI sandbox:
+# index.html
+# src/
+# vite.config.ts
+# tailwind.config.js
+# postcss.config.js
+# tsconfig.json
