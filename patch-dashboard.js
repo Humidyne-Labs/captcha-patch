@@ -504,13 +504,19 @@ function wireThemeWizard(root, key) {
     try {
       const { bg, color, border, focus, radius, width, textIdle, textVerifying, textDone, textError } = body;
       const templateCss = await Bun.file("/usr/src/app/assets/cap.css.template").text();
-      const rep = (css, key, val) => css.replace(new RegExp("(" + key + "\\\\s*:\\\\s*)([^;\\\\}]+)", "g"), "$1" + val);
-      let newCss = rep(templateCss, "--cap-background", bg);
-      newCss = rep(newCss, "--cap-color", color);
-      newCss = rep(newCss, "--cap-border-color", border);
-      newCss = rep(newCss, "--cap-focus-ring", focus);
-      newCss = rep(newCss, "--cap-border-radius", radius);
-      newCss = rep(newCss, "--cap-widget-width", width);
+
+      // Prepend host-level CSS custom property definitions
+      const hostCss = `:host{--cap-background:${bg};--cap-color:${color};--cap-border-color:${border};--cap-focus-ring:${focus};--cap-border-radius:${radius};--cap-widget-width:${width};}`;
+
+      // Replace var(--cap-xxx, default) fallbacks throughout the stylesheet
+      let newCss = hostCss + templateCss
+        .replace(/var\(--cap-background\s*,\s*[^)]+\)/g, `var(--cap-background, ${bg})`)
+        .replace(/var\(--cap-color\s*,\s*[^)]+\)/g, `var(--cap-color, ${color})`)
+        .replace(/var\(--cap-border-color\s*,\s*[^)]+\)/g, `var(--cap-border-color, ${border})`)
+        .replace(/var\(--cap-focus-ring\s*,\s*[^)]+\)/g, `var(--cap-focus-ring, ${focus})`)
+        .replace(/var\(--cap-border-radius\s*,\s*[^)]+\)/g, `var(--cap-border-radius, ${radius})`)
+        .replace(/var\(--cap-widget-width\s*,\s*[^)]+\)/g, `var(--cap-widget-width, ${width})`);
+
       const templateJs = await Bun.file("/usr/src/app/assets/widget.template.js").text();
       const minifiedCss = newCss
         .replace(/\\/\\*[\\s\\S]*?\\*\\//g, "")
