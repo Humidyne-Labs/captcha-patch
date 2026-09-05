@@ -33,9 +33,9 @@ Thumbs.db
 .idea/
 
 # Optional: If maintaining a strict patch-only repository without local preview UI sandbox:
-# index.html
-# src/
-# vite.config.ts
-# tailwind.config.js
-# postcss.config.js
-# tsconfig.json
+index.html
+src/
+vite.config.ts
+tailwind.config.js
+postcss.config.js
+tsconfig.json
