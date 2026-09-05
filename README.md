@@ -111,6 +111,13 @@ npm install
 npm run dev
 ```
 
+### 🤖 CI/CD Container Publishing
+
+The included GitHub Actions workflow (`.github/workflows/build-container.yml`) automatically builds multi-arch (`amd64`, `arm64`) Docker images whenever changes are pushed to `main`:
+
+- **GitHub Container Registry (Zero-Config Default)**: Pushes automatically to `ghcr.io/humidyne-labs/cap-themed:latest` using GitHub's built-in `GITHUB_TOKEN` (no manual secrets required!).
+- **Docker Hub (Optional)**: If you add `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` in your repository Secrets, it will also mirror the build to Docker Hub automatically.
+
 ---
 
 ## 👥 Contributors
