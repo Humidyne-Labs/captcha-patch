@@ -140,84 +140,201 @@ If anything fails and you are sure it's Cap's issue:
                 <option value="custom">Custom Colorway</option>
               </select>
             </div>
+
+            <!-- Tab Navigation for Controls -->
+            <div class="theme-tab-bar" style="display: flex; gap: 4px; border-bottom: 1px solid var(--border-color, #e2e8f0); margin-top: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px;">
+              <button type="button" class="theme-tab-btn active" data-target="themeTabColors" style="padding: 6px 10px; font-size: 11px; font-weight: 600; border: none; background: none; color: #3b82f6; border-bottom: 2px solid #3b82f6; cursor: pointer; white-space: nowrap;">🎨 Colors & Layout</button>
+              <button type="button" class="theme-tab-btn" data-target="themeTabCheckbox" style="padding: 6px 10px; font-size: 11px; font-weight: 600; border: none; background: none; color: #94a3b8; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap;">☑️ Checkbox & Spinner</button>
+              <button type="button" class="theme-tab-btn" data-target="themeTabLabels" style="padding: 6px 10px; font-size: 11px; font-weight: 600; border: none; background: none; color: #94a3b8; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap;">📝 i18n Labels</button>
+              <button type="button" class="theme-tab-btn" data-target="themeTabAria" style="padding: 6px 10px; font-size: 11px; font-weight: 600; border: none; background: none; color: #94a3b8; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap;">♿ ARIA / A11y</button>
+            </div>
             
-            <div class="theme-controls-row">
-              <div class="theme-field-color">
-                <label>Background</label>
-                <div class="color-picker-wrapper">
-                  <input type="color" id="themeBg" value="#fdfdfd">
-                  <input type="text" id="themeBgText" value="#fdfdfd">
+            <!-- SECTION 1: Colors & Layout -->
+            <div id="themeTabColors" class="theme-tab-content">
+              <div class="theme-controls-row">
+                <div class="theme-field-color">
+                  <label>Background</label>
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="themeBg" value="#fdfdfd">
+                    <input type="text" id="themeBgText" value="#fdfdfd">
+                  </div>
+                </div>
+                <div class="theme-field-color">
+                  <label>Text Color</label>
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="themeColor" value="#212121">
+                    <input type="text" id="themeColorText" value="#212121">
+                  </div>
                 </div>
               </div>
-              <div class="theme-field-color">
-                <label>Text Color</label>
-                <div class="color-picker-wrapper">
-                  <input type="color" id="themeColor" value="#212121">
-                  <input type="text" id="themeColorText" value="#212121">
+
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field-color">
+                  <label>Border Color</label>
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="themeBorder" value="#dddddd">
+                    <input type="text" id="themeBorderText" value="#dddddd">
+                  </div>
+                </div>
+                <div class="theme-field-color">
+                  <label>Focus Ring</label>
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="themeFocus" value="#0066cc">
+                    <input type="text" id="themeFocusText" value="#0066cc">
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="theme-controls-row">
-              <div class="theme-field-color">
-                <label>Border Color</label>
-                <div class="color-picker-wrapper">
-                  <input type="color" id="themeBorder" value="#dddddd">
-                  <input type="text" id="themeBorderText" value="#dddddd">
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field-range">
+                  <label>Border Radius (<span id="themeRadiusVal">14px</span>)</label>
+                  <input type="range" id="themeRadius" min="0" max="28" value="14" step="1">
+                </div>
+                <div class="theme-field-range">
+                  <label>Widget Width (<span id="themeWidthVal">260px</span>)</label>
+                  <input type="range" id="themeWidth" min="180" max="420" value="260" step="5">
                 </div>
               </div>
-              <div class="theme-field-color">
-                <label>Focus Ring</label>
-                <div class="color-picker-wrapper">
-                  <input type="color" id="themeFocus" value="#0066cc">
-                  <input type="text" id="themeFocusText" value="#0066cc">
+
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field-range">
+                  <label>Widget Height (<span id="themeHeightVal">54px</span>)</label>
+                  <input type="range" id="themeHeight" min="30" max="80" value="54" step="1">
+                </div>
+                <div class="theme-field-range">
+                  <label>Padding (<span id="themePaddingVal">14px</span>)</label>
+                  <input type="range" id="themePadding" min="0" max="30" value="14" step="1">
                 </div>
               </div>
-            </div>
 
-            <div class="theme-controls-row">
-              <div class="theme-field-range">
-                <label>Border Radius (<span id="themeRadiusVal">14px</span>)</label>
-                <input type="range" id="themeRadius" min="0" max="28" value="14" step="1">
-              </div>
-              <div class="theme-field-range">
-                <label>Widget Width (<span id="themeWidthVal">260px</span>)</label>
-                <input type="range" id="themeWidth" min="200" max="400" value="260" step="5">
-              </div>
-            </div>
-
-            <div class="theme-controls-row">
-              <div class="theme-field-range">
-                <label>Widget Height (<span id="themeHeightVal">54px</span>)</label>
-                <input type="range" id="themeHeight" min="40" max="75" value="54" step="1">
-              </div>
-              <div class="theme-field-range">
-                <label>Checkbox Size (<span id="themeCheckboxSizeVal">25px</span>)</label>
-                <input type="range" id="themeCheckboxSize" min="16" max="32" value="25" step="1">
-              </div>
-            </div>
-
-            <!-- Custom Widget Labels Section -->
-            <div style="margin-top: 14px; border-top: 1px dashed var(--border-color, #e2e8f0); padding-top: 14px;">
-              <span style="font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--text-secondary, #718096); display: block; margin-bottom: 8px;">📝 Custom Widget Labels</span>
-              <div class="theme-controls-row" style="margin-bottom: 10px;">
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field-range">
+                  <label>Gap (<span id="themeGapVal">15px</span>)</label>
+                  <input type="range" id="themeGap" min="0" max="30" value="15" step="1">
+                </div>
                 <div class="theme-field">
-                  <label>Idle Text</label>
-                  <input type="text" id="themeTextIdle" value="Verify with Cap" class="theme-select" style="padding: 6px 10px; font-size: 12px; height: 34px;">
-                </div>
-                <div class="theme-field">
-                  <label>Verifying Text</label>
-                  <input type="text" id="themeTextVerifying" value="Solving Proof-of-Work..." class="theme-select" style="padding: 6px 10px; font-size: 12px; height: 34px;">
+                  <label>Font Family</label>
+                  <input type="text" id="themeFont" value="system-ui, -apple-system, sans-serif" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
                 </div>
               </div>
+            </div>
+
+            <!-- SECTION 2: Checkbox & Spinner -->
+            <div id="themeTabCheckbox" class="theme-tab-content" style="display: none;">
+              <div class="theme-controls-row">
+                <div class="theme-field-range">
+                  <label>Checkbox Size (<span id="themeCheckboxSizeVal">25px</span>)</label>
+                  <input type="range" id="themeCheckboxSize" min="16" max="36" value="25" step="1">
+                </div>
+                <div class="theme-field-range">
+                  <label>Checkbox Radius (<span id="themeCheckboxRadiusVal">6px</span>)</label>
+                  <input type="range" id="themeCheckboxRadius" min="0" max="16" value="6" step="1">
+                </div>
+              </div>
+
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field-range">
+                  <label>Checkbox Margin (<span id="themeCheckboxMarginVal">2px</span>)</label>
+                  <input type="range" id="themeCheckboxMargin" min="0" max="12" value="2" step="1">
+                </div>
+                <div class="theme-field">
+                  <label>Checkbox Border</label>
+                  <input type="text" id="themeCheckboxBorder" value="1px solid #aaaaaad1" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+              </div>
+
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field-color">
+                  <label>Checkbox Bg</label>
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="themeCheckboxBg" value="#fafafa">
+                    <input type="text" id="themeCheckboxBgText" value="#fafafa91">
+                  </div>
+                </div>
+                <div class="theme-field-color">
+                  <label>Spinner Bar</label>
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="themeSpinnerColor" value="#000000">
+                    <input type="text" id="themeSpinnerColorText" value="#000000">
+                  </div>
+                </div>
+              </div>
+
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field-color">
+                  <label>Spinner Track</label>
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="themeSpinnerBg" value="#eeeeee">
+                    <input type="text" id="themeSpinnerBgText" value="#eeeeee">
+                  </div>
+                </div>
+                <div class="theme-field-range">
+                  <label>Spinner Thickness (<span id="themeSpinnerThicknessVal">5px</span>)</label>
+                  <input type="range" id="themeSpinnerThickness" min="1" max="10" value="5" step="1">
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 3: Custom i18n Labels -->
+            <div id="themeTabLabels" class="theme-tab-content" style="display: none;">
               <div class="theme-controls-row">
                 <div class="theme-field">
-                  <label>Success Text</label>
-                  <input type="text" id="themeTextDone" value="Verification Complete" class="theme-select" style="padding: 6px 10px; font-size: 12px; height: 34px;">
+                  <label>Initial State (Idle)</label>
+                  <input type="text" id="themeTextIdle" value="Verify you're human" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
                 </div>
                 <div class="theme-field">
-                  <label>Error Text</label>
-                  <input type="text" id="themeTextError" value="Failed to verify" class="theme-select" style="padding: 6px 10px; font-size: 12px; height: 34px;">
+                  <label>Verifying Label</label>
+                  <input type="text" id="themeTextVerifying" value="Verifying..." class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+              </div>
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field">
+                  <label>Solved Label</label>
+                  <input type="text" id="themeTextDone" value="You're human" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+                <div class="theme-field">
+                  <label>Error Label</label>
+                  <input type="text" id="themeTextError" value="Error" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+              </div>
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field">
+                  <label>Troubleshooting Link</label>
+                  <input type="text" id="themeTextTroubleshooting" value="Troubleshooting" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+                <div class="theme-field">
+                  <label>Required Field Label</label>
+                  <input type="text" id="themeTextRequired" value="Please verify you're human" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+              </div>
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field" style="width: 100%;">
+                  <label>WASM Disabled Notice</label>
+                  <input type="text" id="themeTextWasmDisabled" value="Enable WASM for significantly faster solving" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 4: ARIA & Accessibility -->
+            <div id="themeTabAria" class="theme-tab-content" style="display: none;">
+              <div class="theme-controls-row">
+                <div class="theme-field">
+                  <label>Verify Button ARIA</label>
+                  <input type="text" id="themeAriaVerify" value="Click to verify you're a human" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+                <div class="theme-field">
+                  <label>Verifying ARIA</label>
+                  <input type="text" id="themeAriaVerifying" value="Verifying, please wait" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+              </div>
+              <div class="theme-controls-row" style="margin-top: 10px;">
+                <div class="theme-field">
+                  <label>Verified ARIA</label>
+                  <input type="text" id="themeAriaVerified" value="Verified" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
+                </div>
+                <div class="theme-field">
+                  <label>Error ARIA</label>
+                  <input type="text" id="themeAriaError" value="An error occurred, please try again" class="theme-select" style="padding: 6px 10px; font-size: 11px; height: 34px;">
                 </div>
               </div>
             </div>
@@ -368,8 +485,63 @@ function wireThemeWizard(root, key) {
 
   const heightInput = root.querySelector("#themeHeight");
   const heightVal = root.querySelector("#themeHeightVal");
+  const paddingInput = root.querySelector("#themePadding");
+  const paddingVal = root.querySelector("#themePaddingVal");
+  const gapInput = root.querySelector("#themeGap");
+  const gapVal = root.querySelector("#themeGapVal");
+  const fontInput = root.querySelector("#themeFont");
+
   const checkboxSizeInput = root.querySelector("#themeCheckboxSize");
   const checkboxSizeVal = root.querySelector("#themeCheckboxSizeVal");
+  const checkboxRadiusInput = root.querySelector("#themeCheckboxRadius");
+  const checkboxRadiusVal = root.querySelector("#themeCheckboxRadiusVal");
+  const checkboxMarginInput = root.querySelector("#themeCheckboxMargin");
+  const checkboxMarginVal = root.querySelector("#themeCheckboxMarginVal");
+  const checkboxBorderInput = root.querySelector("#themeCheckboxBorder");
+  const checkboxBgInput = root.querySelector("#themeCheckboxBg");
+  const checkboxBgText = root.querySelector("#themeCheckboxBgText");
+
+  const spinnerColorInput = root.querySelector("#themeSpinnerColor");
+  const spinnerColorText = root.querySelector("#themeSpinnerColorText");
+  const spinnerBgInput = root.querySelector("#themeSpinnerBg");
+  const spinnerBgText = root.querySelector("#themeSpinnerBgText");
+  const spinnerThicknessInput = root.querySelector("#themeSpinnerThickness");
+  const spinnerThicknessVal = root.querySelector("#themeSpinnerThicknessVal");
+
+  // i18n inputs
+  const textTroubleshootingInput = root.querySelector("#themeTextTroubleshooting");
+  const textWasmDisabledInput = root.querySelector("#themeTextWasmDisabled");
+  const textRequiredInput = root.querySelector("#themeTextRequired");
+
+  // ARIA inputs
+  const ariaVerifyInput = root.querySelector("#themeAriaVerify");
+  const ariaVerifyingInput = root.querySelector("#themeAriaVerifying");
+  const ariaVerifiedInput = root.querySelector("#themeAriaVerified");
+  const ariaErrorInput = root.querySelector("#themeAriaError");
+
+  // Wire Tab Navigation
+  const tabBtns = root.querySelectorAll(".theme-tab-btn");
+  const tabContents = root.querySelectorAll(".theme-tab-content");
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-target");
+      tabBtns.forEach(b => {
+        b.classList.remove("active");
+        b.style.color = "#94a3b8";
+        b.style.borderBottomColor = "transparent";
+      });
+      btn.classList.add("active");
+      btn.style.color = "#3b82f6";
+      btn.style.borderBottomColor = "#3b82f6";
+      tabContents.forEach(c => {
+        if (c.id === targetId) {
+          c.style.display = "block";
+        } else {
+          c.style.display = "none";
+        }
+      });
+    });
+  });
 
   function updatePreviewAndCode() {
     const bg = bgInput.value;
@@ -379,14 +551,43 @@ function wireThemeWizard(root, key) {
     const radius = radiusInput.value + "px";
     const width = widthInput.value + "px";
     const height = heightInput ? heightInput.value + "px" : "54px";
+    const padding = paddingInput ? paddingInput.value + "px" : "14px";
+    const gap = gapInput ? gapInput.value + "px" : "15px";
+    const font = fontInput ? fontInput.value : "system-ui, -apple-system, sans-serif";
+
     const checkboxSize = checkboxSizeInput ? checkboxSizeInput.value + "px" : "25px";
+    const checkboxRadius = checkboxRadiusInput ? checkboxRadiusInput.value + "px" : "6px";
+    const checkboxMargin = checkboxMarginInput ? checkboxMarginInput.value + "px" : "2px";
+    const checkboxBorder = checkboxBorderInput ? checkboxBorderInput.value : "1px solid #aaaaaad1";
+    const checkboxBg = checkboxBgInput ? checkboxBgInput.value : "#fafafa";
+    const spinnerColor = spinnerColorInput ? spinnerColorInput.value : "#000000";
+    const spinnerBg = spinnerBgInput ? spinnerBgInput.value : "#eeeeee";
+    const spinnerThickness = spinnerThicknessInput ? spinnerThicknessInput.value + "px" : "5px";
 
     radiusVal.textContent = radius;
     widthVal.textContent = width;
     if (heightVal && heightInput) heightVal.textContent = height;
+    if (paddingVal && paddingInput) paddingVal.textContent = padding;
+    if (gapVal && gapInput) gapVal.textContent = gap;
     if (checkboxSizeVal && checkboxSizeInput) checkboxSizeVal.textContent = checkboxSize;
+    if (checkboxRadiusVal && checkboxRadiusInput) checkboxRadiusVal.textContent = checkboxRadius;
+    if (checkboxMarginVal && checkboxMarginInput) checkboxMarginVal.textContent = checkboxMargin;
+    if (spinnerThicknessVal && spinnerThicknessInput) spinnerThicknessVal.textContent = spinnerThickness;
 
     const widgetEl = previewBox.querySelector("cap-widget");
+    const textIdle = textIdleInput ? textIdleInput.value : "Verify you're human";
+    const textVerifying = textVerifyingInput ? textVerifyingInput.value : "Verifying...";
+    const textDone = textDoneInput ? textDoneInput.value : "You're human";
+    const textError = textErrorInput ? textErrorInput.value : "Error";
+    const textTroubleshooting = textTroubleshootingInput ? textTroubleshootingInput.value : "Troubleshooting";
+    const textWasmDisabled = textWasmDisabledInput ? textWasmDisabledInput.value : "Enable WASM for significantly faster solving";
+    const textRequired = textRequiredInput ? textRequiredInput.value : "Please verify you're human";
+
+    const ariaVerify = ariaVerifyInput ? ariaVerifyInput.value : "Click to verify you're a human";
+    const ariaVerifying = ariaVerifyingInput ? ariaVerifyingInput.value : "Verifying, please wait";
+    const ariaVerified = ariaVerifiedInput ? ariaVerifiedInput.value : "Verified";
+    const ariaError = ariaErrorInput ? ariaErrorInput.value : "An error occurred, please try again";
+
     if (widgetEl) {
       widgetEl.style.setProperty("--cap-background", bg);
       widgetEl.style.setProperty("--cap-color", color);
@@ -395,14 +596,48 @@ function wireThemeWizard(root, key) {
       widgetEl.style.setProperty("--cap-border-radius", radius);
       widgetEl.style.setProperty("--cap-widget-width", width);
       widgetEl.style.setProperty("--cap-widget-height", height);
+      widgetEl.style.setProperty("--cap-widget-padding", padding);
+      widgetEl.style.setProperty("--cap-gap", gap);
+      widgetEl.style.setProperty("--cap-font", font);
+
       widgetEl.style.setProperty("--cap-checkbox-size", checkboxSize);
+      widgetEl.style.setProperty("--cap-checkbox-border", checkboxBorder);
+      widgetEl.style.setProperty("--cap-checkbox-border-radius", checkboxRadius);
+      widgetEl.style.setProperty("--cap-checkbox-background", checkboxBg);
+      widgetEl.style.setProperty("--cap-checkbox-margin", checkboxMargin);
+
+      widgetEl.style.setProperty("--cap-spinner-color", spinnerColor);
+      widgetEl.style.setProperty("--cap-spinner-background-color", spinnerBg);
+      widgetEl.style.setProperty("--cap-spinner-thickness", spinnerThickness);
+
+      widgetEl.setAttribute("data-cap-i18n-initial-state", textIdle);
+      widgetEl.setAttribute("data-cap-i18n-verifying-label", textVerifying);
+      widgetEl.setAttribute("data-cap-i18n-solved-label", textDone);
+      widgetEl.setAttribute("data-cap-i18n-error-label", textError);
+      widgetEl.setAttribute("data-cap-i18n-troubleshooting-label", textTroubleshooting);
+      widgetEl.setAttribute("data-cap-i18n-wasm-disabled", textWasmDisabled);
+      widgetEl.setAttribute("data-cap-i18n-required-label", textRequired);
+
+      widgetEl.setAttribute("data-cap-i18n-verify-aria-label", ariaVerify);
+      widgetEl.setAttribute("data-cap-i18n-verifying-aria-label", ariaVerifying);
+      widgetEl.setAttribute("data-cap-i18n-verified-aria-label", ariaVerified);
+      widgetEl.setAttribute("data-cap-i18n-error-aria-label", ariaError);
+
+      if (typeof widgetEl.animateLabel === "function") {
+        widgetEl.animateLabel(textIdle);
+      } else if (widgetEl.shadowRoot) {
+        const labelEl = widgetEl.shadowRoot.querySelector(".label.active");
+        if (labelEl) labelEl.textContent = textIdle;
+      }
     }
 
     const origin = location.origin;
-    const endpoint = \`\${origin}/\${key.siteKey}/\`;
-    const styleAttr = \`style="--cap-background: \${bg}; --cap-color: \${color}; --cap-border-color: \${border}; --cap-focus-ring: \${focus}; --cap-border-radius: \${radius}; --cap-widget-width: \${width}; --cap-widget-height: \${height}; --cap-checkbox-size: \${checkboxSize};"\`;
+    const endpoint = "\${origin}/\${key.siteKey}/";
+    const styleAttr = "style=\"--cap-background: \${bg}; --cap-color: \${color}; --cap-border-color: \${border}; --cap-focus-ring: \${focus}; --cap-border-radius: \${radius}; --cap-widget-width: \${width}; --cap-widget-height: \${height}; --cap-widget-padding: \${padding}; --cap-gap: \${gap}; --cap-font: \${font}; --cap-checkbox-size: \${checkboxSize}; --cap-checkbox-border: \${checkboxBorder}; --cap-checkbox-border-radius: \${checkboxRadius}; --cap-checkbox-background: \${checkboxBg}; --cap-checkbox-margin: \${checkboxMargin}; --cap-spinner-color: \${spinnerColor}; --cap-spinner-background-color: \${spinnerBg}; --cap-spinner-thickness: \${spinnerThickness};\"";
     
-    const widgetSnippet = \`<script src="\${origin}/assets/widget.js"></script>\\n<cap-widget data-cap-api-endpoint="\${endpoint}"\\n  \${styleAttr}>\\n</cap-widget>\`;
+    const i18nAttrs = "data-cap-i18n-initial-state=\"\${textIdle}\"\n  data-cap-i18n-verifying-label=\"\${textVerifying}\"\n  data-cap-i18n-solved-label=\"\${textDone}\"\n  data-cap-i18n-error-label=\"\${textError}\"\n  data-cap-i18n-troubleshooting-label=\"\${textTroubleshooting}\"\n  data-cap-i18n-wasm-disabled=\"\${textWasmDisabled}\"\n  data-cap-i18n-required-label=\"\${textRequired}\"\n  data-cap-i18n-verify-aria-label=\"\${ariaVerify}\"\n  data-cap-i18n-verifying-aria-label=\"\${ariaVerifying}\"\n  data-cap-i18n-verified-aria-label=\"\${ariaVerified}\"\n  data-cap-i18n-error-aria-label=\"\${ariaError}\"";
+    
+    const widgetSnippet = "<script src=\"\${origin}/assets/widget.js\"></script>\n<cap-widget data-cap-api-endpoint=\"\${endpoint}\"\n  " + i18nAttrs + "\n  " + styleAttr + ">\n</cap-widget>";
 
     snippetCode.innerHTML = highlight(widgetSnippet);
     snippetBlock.dataset.raw = widgetSnippet;
@@ -429,35 +664,27 @@ function wireThemeWizard(root, key) {
   setupColorSync(colorInput, colorText);
   setupColorSync(borderInput, borderText);
   setupColorSync(focusInput, focusText);
+  if (checkboxBgInput && checkboxBgText) setupColorSync(checkboxBgInput, checkboxBgText);
+  if (spinnerColorInput && spinnerColorText) setupColorSync(spinnerColorInput, spinnerColorText);
+  if (spinnerBgInput && spinnerBgText) setupColorSync(spinnerBgInput, spinnerBgText);
 
-  radiusInput.addEventListener("input", () => {
-    presetSelect.value = "custom";
-    updatePreviewAndCode();
+  [radiusInput, widthInput, heightInput, paddingInput, gapInput, checkboxSizeInput, checkboxRadiusInput, checkboxMarginInput, spinnerThicknessInput].forEach(inp => {
+    if (inp) {
+      inp.addEventListener("input", () => {
+        presetSelect.value = "custom";
+        updatePreviewAndCode();
+      });
+    }
   });
-  widthInput.addEventListener("input", () => {
-    presetSelect.value = "custom";
-    updatePreviewAndCode();
+
+  [fontInput, checkboxBorderInput, textIdleInput, textVerifyingInput, textDoneInput, textErrorInput, textTroubleshootingInput, textWasmDisabledInput, textRequiredInput, ariaVerifyInput, ariaVerifyingInput, ariaVerifiedInput, ariaErrorInput].forEach(inp => {
+    if (inp) {
+      inp.addEventListener("input", () => {
+        presetSelect.value = "custom";
+        updatePreviewAndCode();
+      });
+    }
   });
-
-  if (heightInput) {
-    heightInput.addEventListener("input", () => {
-      presetSelect.value = "custom";
-      updatePreviewAndCode();
-    });
-  }
-  if (checkboxSizeInput) {
-    checkboxSizeInput.addEventListener("input", () => {
-      presetSelect.value = "custom";
-      updatePreviewAndCode();
-    });
-  }
-
-  if (textIdleInput) {
-    textIdleInput.addEventListener("input", updatePreviewAndCode);
-    textVerifyingInput.addEventListener("input", updatePreviewAndCode);
-    textDoneInput.addEventListener("input", updatePreviewAndCode);
-    textErrorInput.addEventListener("input", updatePreviewAndCode);
-  }
 
   presetSelect.addEventListener("change", () => {
     const p = presets[presetSelect.value];
@@ -507,11 +734,28 @@ function wireThemeWizard(root, key) {
           radius: radiusInput.value + "px",
           width: widthInput.value + "px",
           height: heightInput ? heightInput.value + "px" : "54px",
+          padding: paddingInput ? paddingInput.value + "px" : "14px",
+          gap: gapInput ? gapInput.value + "px" : "15px",
+          font: fontInput ? fontInput.value : "system-ui, -apple-system, sans-serif",
           checkboxSize: checkboxSizeInput ? checkboxSizeInput.value + "px" : "25px",
-          textIdle: textIdleInput ? textIdleInput.value : "Verify with Cap",
-          textVerifying: textVerifyingInput ? textVerifyingInput.value : "Solving Proof-of-Work...",
-          textDone: textDoneInput ? textDoneInput.value : "Verification Complete",
-          textError: textErrorInput ? textErrorInput.value : "Failed to verify"
+          checkboxBorder: checkboxBorderInput ? checkboxBorderInput.value : "1px solid #aaaaaad1",
+          checkboxRadius: checkboxRadiusInput ? checkboxRadiusInput.value + "px" : "6px",
+          checkboxBg: checkboxBgInput ? checkboxBgInput.value : "#fafafa",
+          checkboxMargin: checkboxMarginInput ? checkboxMarginInput.value + "px" : "2px",
+          spinnerColor: spinnerColorInput ? spinnerColorInput.value : "#000000",
+          spinnerBg: spinnerBgInput ? spinnerBgInput.value : "#eeeeee",
+          spinnerThickness: spinnerThicknessInput ? spinnerThicknessInput.value + "px" : "5px",
+          textIdle: textIdleInput ? textIdleInput.value : "Verify you're human",
+          textVerifying: textVerifyingInput ? textVerifyingInput.value : "Verifying...",
+          textDone: textDoneInput ? textDoneInput.value : "You're human",
+          textError: textErrorInput ? textErrorInput.value : "Error",
+          textTroubleshooting: textTroubleshootingInput ? textTroubleshootingInput.value : "Troubleshooting",
+          textWasmDisabled: textWasmDisabledInput ? textWasmDisabledInput.value : "Enable WASM for significantly faster solving",
+          textRequired: textRequiredInput ? textRequiredInput.value : "Please verify you're human",
+          ariaVerify: ariaVerifyInput ? ariaVerifyInput.value : "Click to verify you're a human",
+          ariaVerifying: ariaVerifyingInput ? ariaVerifyingInput.value : "Verifying, please wait",
+          ariaVerified: ariaVerifiedInput ? ariaVerifiedInput.value : "Verified",
+          ariaError: ariaErrorInput ? ariaErrorInput.value : "An error occurred, please try again"
         };
 
         let res = await fetch("/assets/recompile-widget", {
@@ -601,11 +845,16 @@ function wireThemeWizard(root, key) {
   })
   .post("/recompile-widget", async ({ body, set }) => {
     try {
-      const { bg, color, border, focus, radius, width, height, checkboxSize, textIdle, textVerifying, textDone, textError } = body;
+      const {
+        bg, color, border, focus, radius, width, height, padding, gap, font,
+        checkboxSize, checkboxBorder, checkboxRadius, checkboxBg, checkboxMargin,
+        spinnerColor, spinnerBg, spinnerThickness,
+        textIdle, textVerifying, textDone, textError
+      } = body;
       const templateCss = await Bun.file("/usr/src/app/assets/cap.css.template").text();
 
       // Prepend host-level CSS custom property definitions
-      const hostCss = \`:host{--cap-background:\${bg};--cap-color:\${color};--cap-border-color:\${border};--cap-focus-ring:\${focus};--cap-border-radius:\${radius};--cap-widget-width:\${width};--cap-widget-height:\${height || "54px"};--cap-checkbox-size:\${checkboxSize || "25px"};}\`;
+      const hostCss = \`:host{--cap-background:\${bg};--cap-color:\${color};--cap-border-color:\${border};--cap-focus-ring:\${focus};--cap-border-radius:\${radius};--cap-widget-width:\${width};--cap-widget-height:\${height || "54px"};--cap-widget-padding:\${padding || "14px"};--cap-gap:\${gap || "15px"};--cap-font:\${font || "system-ui, -apple-system, sans-serif"};--cap-checkbox-size:\${checkboxSize || "25px"};--cap-checkbox-border:\${checkboxBorder || "1px solid #aaaaaad1"};--cap-checkbox-border-radius:\${checkboxRadius || "6px"};--cap-checkbox-background:\${checkboxBg || "#fafafa91"};--cap-checkbox-margin:\${checkboxMargin || "2px"};--cap-spinner-color:\${spinnerColor || "#000000"};--cap-spinner-background-color:\${spinnerBg || "#eeeeee"};--cap-spinner-thickness:\${spinnerThickness || "5px"};}\`;
 
       // Replace var(--cap-xxx, default) fallbacks throughout the stylesheet
       let newCss = hostCss + templateCss
@@ -616,7 +865,17 @@ function wireThemeWizard(root, key) {
         .replace(/var\(--cap-border-radius\\s*,\\s*[^)]+\)/g, \`var(--cap-border-radius, \${radius})\`)
         .replace(/var\(--cap-widget-width\\s*,\\s*[^)]+\)/g, \`var(--cap-widget-width, \${width})\`)
         .replace(/var\(--cap-widget-height\\s*,\\s*[^)]+\)/g, \`var(--cap-widget-height, \${height || "54px"})\`)
-        .replace(/var\(--cap-checkbox-size\\s*,\\s*[^)]+\)/g, \`var(--cap-checkbox-size, \${checkboxSize || "25px"})\`);
+        .replace(/var\(--cap-widget-padding\\s*,\\s*[^)]+\)/g, \`var(--cap-widget-padding, \${padding || "14px"})\`)
+        .replace(/var\(--cap-gap\\s*,\\s*[^)]+\)/g, \`var(--cap-gap, \${gap || "15px"})\`)
+        .replace(/var\(--cap-font\\s*,\\s*[^)]+\)/g, \`var(--cap-font, \${font || "system-ui, -apple-system, sans-serif"})\`)
+        .replace(/var\(--cap-checkbox-size\\s*,\\s*[^)]+\)/g, \`var(--cap-checkbox-size, \${checkboxSize || "25px"})\`)
+        .replace(/var\(--cap-checkbox-border\\s*,\\s*[^)]+\)/g, \`var(--cap-checkbox-border, \${checkboxBorder || "1px solid #aaaaaad1"})\`)
+        .replace(/var\(--cap-checkbox-border-radius\\s*,\\s*[^)]+\)/g, \`var(--cap-checkbox-border-radius, \${checkboxRadius || "6px"})\`)
+        .replace(/var\(--cap-checkbox-background\\s*,\\s*[^)]+\)/g, \`var(--cap-checkbox-background, \${checkboxBg || "#fafafa91"})\`)
+        .replace(/var\(--cap-checkbox-margin\\s*,\\s*[^)]+\)/g, \`var(--cap-checkbox-margin, \${checkboxMargin || "2px"})\`)
+        .replace(/var\(--cap-spinner-color\\s*,\\s*[^)]+\)/g, \`var(--cap-spinner-color, \${spinnerColor || "#000000"})\`)
+        .replace(/var\(--cap-spinner-background-color\\s*,\\s*[^)]+\)/g, \`var(--cap-spinner-background-color, \${spinnerBg || "#eeeeee"})\`)
+        .replace(/var\(--cap-spinner-thickness\\s*,\\s*[^)]+\)/g, \`var(--cap-spinner-thickness, \${spinnerThickness || "5px"})\`);
 
       const templateJs = await Bun.file("/usr/src/app/assets/widget.template.js").text();
       const minifiedCss = newCss
