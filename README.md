@@ -64,6 +64,44 @@ In your **Authentik Admin Interface**, navigate to **Flows and Stages > Stages**
 
 ---
 
+## 🚀 Quick Start with Docker Compose
+
+To run the custom themed Cap container on your server, replace the default `image:` in your `docker-compose.yml` with our patched image:
+
+```yaml
+services:
+  cap:
+    image: ghcr.io/humidyne-labs/cap-themed:latest # 👈 Use the custom themed Cap image
+    container_name: cap
+    ports:
+      - "3000:3000"
+    environment:
+      ADMIN_KEY: your_secret_password
+      REDIS_URL: redis://valkey:6379
+    depends_on:
+      valkey:
+        condition: service_healthy
+    restart: unless-stopped
+
+  valkey:
+    image: valkey/valkey:9-alpine
+    container_name: cap-valkey
+    volumes:
+      - valkey-data:/data
+    command: valkey-server --save 60 1 --loglevel warning --maxmemory-policy noeviction
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  valkey-data:
+```
+
+---
+
 ## 📂 Repository Structure & File Breakdown
 
 To keep things clean, the repository separates the **production patch files** (used by Docker to build the branded Cap container) from the **local preview playground** (used for testing the Theme Wizard in Vite/AI Studio).

@@ -87,8 +87,11 @@ COPY --from=builder /build/widget/src/cap-floating.min.js /usr/src/app/assets/fl
 # 2. Copy the patched version-specific assets server directly
 COPY --from=builder /build/standalone/src/assets.js /usr/src/app/src/assets.js
 
+# 3. Copy the patched public dashboard UI assets
+COPY --from=builder /build/standalone/public /usr/src/app/public
+
 # Ensure permissions are correct
-RUN chmod -R a+rX /usr/src/app/assets
+RUN chmod -R a+rX /usr/src/app/assets /usr/src/app/public
 
 # Switch back to the standard container user
 USER bun
