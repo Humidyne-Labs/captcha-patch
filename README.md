@@ -248,8 +248,8 @@ The included GitHub Actions workflow (`.github/workflows/build-container.yml`) a
 
 ## 👥 Contributors
 
-- **humiditron** (Project Visionary, Lead Integrator, & Patch Inventor)
-- **AI Coding Assistant** (Co-developer & Theme Wizard Architect, Powered by Gemini & AI Studio)
+[![none](https://wsrv.nl/?url=github.com/Humiditron.png&w=32&h=32&fit=cover&mask=circle&filt=greyscale "@Humiditron")](https://github.com/Humiditron/)
+[![none](https://wsrv.nl/?url=github.com/google-gemini.png&w=32&h=32&fit=cover&mask=circle&filt=greyscale "@google-gemini")](https://github.com/google-gemini/)
 
 ---
 
